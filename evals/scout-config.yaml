@@ -1,0 +1,28 @@
+# Promptfoo Configuration for Forager Scout
+# Baseline: Claude Sonnet 4-6
+
+prompts:
+  - "Analyze the eligibility of the organization profile: {{profile}} for the grant opportunity: {{grant}}. Return a JSON object with 'eligible' (boolean) and 'rationale' (string)."
+
+providers:
+  - id: 'file://evals/custom-provider.js'
+    config:
+      task: 'scout_eligibility_analysis'
+      system: 'You are the Forager Scout agent.'
+
+tests:
+  - vars:
+      profile: "Community health clinic in Colorado serving low-income families."
+      grant: "Federal grant for urban technology infrastructure in New York City."
+    assert:
+      - type: 'contains'
+        value: '"eligible": false'
+      - type: 'javascript'
+        value: "output.toLowerCase().includes('location') || output.toLowerCase().includes('scope')"
+
+  - vars:
+      profile: "Literacy nonprofit based in Chicago."
+      grant: "National endowment for the arts literacy expansion project."
+    assert:
+      - type: 'contains'
+        value: '"eligible": true'

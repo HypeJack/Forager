@@ -1,0 +1,48 @@
+/*
+ * Forager Design System — Global Styles
+ * Brand: Editorial / Trust (Direction A)
+ * Fonts: Source Serif 4 (content) + Inter (UI)
+ *
+ * Tokens imported from @forager/design-tokens
+ */
+
+@import "../../packages/design-tokens/tokens.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Base Reset ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: var(--leading-normal);
+  color: var(--color-neutral-900);
+  background-color: var(--color-surface-background);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-neutral-950);
+}
+
+/* ===== Animations ===== */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}

@@ -1,0 +1,32 @@
+# Forager Eval Suite — Promptfoo Configuration
+# Tests agent outputs for quality, accuracy, and provenance compliance.
+
+description: "Forager Agent Evaluation Suite"
+
+providers:
+  - id: openai:gpt-4o
+    config:
+      temperature: 0
+
+prompts:
+  - id: scout-discovery
+    label: "Scout — Grant Discovery"
+    raw: |
+      {{system_prompt}}
+
+      Organization Profile:
+      - Name: {{org_name}}
+      - Mission: {{org_mission}}
+      - Focus Areas: {{focus_areas}}
+      - Budget: {{annual_budget}}
+      - Location: {{location}}
+      - Type: {{org_type}}
+
+      Task: Identify and score grant opportunities that align with this organization's profile.
+
+defaultTest:
+  options:
+    provider: openai:gpt-4o
+
+tests:
+  - file://cases/01-clear-match.yaml

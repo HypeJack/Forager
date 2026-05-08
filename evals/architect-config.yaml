@@ -1,0 +1,22 @@
+# Promptfoo Configuration for Forager Architect
+# Baseline: Claude Sonnet 4-6 vs Claude Opus 4-7 (Industry)
+
+prompts:
+  - "Draft the 'Executive Summary' for this grant: {{grant}} using this context: {{context}}."
+
+providers:
+  - id: 'file://evals/custom-provider.js'
+    config:
+      task: 'architect_first_draft'
+      plan: 'free'
+      system: 'You are the Forager Architect. Use Source Serif 4 style and strict citations: [[Source: Title]].'
+
+tests:
+  - vars:
+      grant: "Environmental Literacy Grant"
+      context: "[Source: Annual Report 2025] We planted 10,000 trees last year."
+    assert:
+      - type: 'contains'
+        value: '[[Source: Annual Report 2025]]'
+      - type: 'llm-rubric'
+        value: 'The tone should be professional and objective, matching an editorial trust direction.'

@@ -1,0 +1,113 @@
+/*
+ * Forager Design Tokens — Compiled CSS Custom Properties
+ * Auto-generated from design-tokens/tokens.json
+ * Brand: Editorial / Trust (Direction A)
+ */
+
+:root {
+  /* ===== Brand Colors ===== */
+  --color-brand-primary: #1B4332;
+  --color-brand-primary-light: #2D6A4F;
+  --color-brand-primary-dark: #0B2618;
+  --color-brand-accent: #D4A373;
+  --color-brand-accent-light: #E9C89E;
+  --color-brand-accent-dark: #B07D4F;
+
+  /* ===== Neutral Palette ===== */
+  --color-neutral-50: #FAFAF9;
+  --color-neutral-100: #F5F5F4;
+  --color-neutral-200: #E7E5E4;
+  --color-neutral-300: #D6D3D1;
+  --color-neutral-400: #A8A29E;
+  --color-neutral-500: #78716C;
+  --color-neutral-600: #57534E;
+  --color-neutral-700: #44403C;
+  --color-neutral-800: #292524;
+  --color-neutral-900: #1C1917;
+  --color-neutral-950: #0C0A09;
+
+  /* ===== Semantic Colors ===== */
+  --color-semantic-success: #16A34A;
+  --color-semantic-success-light: #BBF7D0;
+  --color-semantic-warning: #D97706;
+  --color-semantic-warning-light: #FDE68A;
+  --color-semantic-error: #DC2626;
+  --color-semantic-error-light: #FECACA;
+  --color-semantic-info: #2563EB;
+  --color-semantic-info-light: #BFDBFE;
+
+  /* ===== Surface Colors ===== */
+  --color-surface-background: #FAFAF9;
+  --color-surface-card: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  --color-surface-overlay: rgba(12, 10, 9, 0.6);
+
+  /* ===== Typography ===== */
+  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+
+  /* ===== Spacing ===== */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* ===== Border Radius ===== */
+  --radius-none: 0;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-full: 9999px;
+
+  /* ===== Shadows ===== */
+  --shadow-sm: 0 1px 2px rgba(12, 10, 9, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(12, 10, 9, 0.07), 0 2px 4px -2px rgba(12, 10, 9, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(12, 10, 9, 0.08), 0 4px 6px -4px rgba(12, 10, 9, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(12, 10, 9, 0.1), 0 8px 10px -6px rgba(12, 10, 9, 0.05);
+  --shadow-inner: inset 0 2px 4px rgba(12, 10, 9, 0.06);
+
+  /* ===== Transitions ===== */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}

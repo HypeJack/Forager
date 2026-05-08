@@ -1,0 +1,55 @@
+# Eval Case: 01-clear-match
+# Tests that the Scout correctly identifies a high-confidence match
+# when the organization profile clearly aligns with a grant opportunity.
+
+description: "Clear match — FQHC aligns with HRSA community health worker grant"
+
+vars:
+  system_prompt: |
+    You are Forager Scout, an expert grant researcher. Identify and score funding
+    opportunities that align with the given organization profile. For each match,
+    provide a score (0–100), rationale, and at least one citation with source,
+    excerpt, and relevance.
+  org_name: "Sunrise Community Health"
+  org_mission: "To provide accessible, high-quality healthcare to underserved communities in the rural Western frontier"
+  focus_areas: "community_health, behavioral_health, maternal_child"
+  annual_budget: "4200000"
+  location: "Western Colorado"
+  org_type: "nonprofit"
+
+assert:
+  # Must return a structured response
+  - type: is-json
+
+  # Must mention the organization by name
+  - type: contains
+    value: "Sunrise"
+
+  # Must include evidence/citation
+  - type: contains-any
+    value:
+      - "source"
+      - "citation"
+      - "evidence"
+
+  # Must include a match score
+  - type: javascript
+    value: |
+      const response = JSON.parse(output);
+      const hasScore = response.opportunities?.some(o => 
+        typeof o.match_score === 'number' && o.match_score >= 0 && o.match_score <= 100
+      );
+      return hasScore || false;
+
+  # Response should be relevant to community health
+  - type: contains-any
+    value:
+      - "community health"
+      - "FQHC"
+      - "underserved"
+      - "rural"
+      - "health worker"
+
+  # Must not hallucinate — no generic or clearly wrong content
+  - type: not-contains
+    value: "technology startup"

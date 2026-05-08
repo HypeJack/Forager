@@ -1,0 +1,15 @@
+{
+  "name": "@forager/design-tokens",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./tokens.tailwind.js",
+  "exports": {
+    ".": "./tokens.tailwind.js",
+    "./css": "./tokens.css",
+    "./json": "./tokens.json"
+  },
+  "scripts": {
+    "build": "node build.mjs"
+  }
+}
