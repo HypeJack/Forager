@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
-import type { ApplicationOutlineSection } from "@forager/db/src/queries/applications";
+// Removed broken import
+type ApplicationOutlineSection = any;
 
 // Default RFP outline sections — user can add/remove in this modal
 const DEFAULT_SECTIONS: ApplicationOutlineSection[] = [
