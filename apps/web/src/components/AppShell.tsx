@@ -15,7 +15,7 @@ export function AppShell() {
 
   async function handleSignOut() {
     await signOut();
-    router.navigate({ to: "/login" });
+    router.navigate({ to: "/" });
   }
 
   return (
