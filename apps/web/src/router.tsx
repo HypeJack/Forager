@@ -50,18 +50,11 @@ const appRoute = createRoute({
   component: AppShell,
 });
 
-import { TenantThemeProvider } from "@/components/TenantThemeProvider";
-
 // ── Tenant Scoped Routes (/org/$slug) ──────────────────────────
 
 const orgLayout = createRoute({
   getParentRoute: () => appRoute,
   path: "/org/$slug",
-  component: () => (
-    <TenantThemeProvider>
-      <Outlet />
-    </TenantThemeProvider>
-  ),
 });
 
 const indexRoute = createRoute({
