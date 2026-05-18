@@ -66,11 +66,10 @@ export function OpportunityDetailPage() {
     return <div className="p-8 text-center text-neutral-500">Opportunity not found.</div>;
   }
 
-  const basePath = slug ? `/org/${slug}` : "";
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-8">
-      <Link to={`${basePath}/opportunities`} className="inline-flex items-center gap-2 text-sm font-medium text-brand-primary hover:underline mb-6">
+      <Link to="/org/$slug/opportunities" params={{ slug: slug || '' }} className="inline-flex items-center gap-2 text-sm font-medium text-brand-primary hover:underline mb-6">
         &larr; Back to Feed
       </Link>
       
@@ -183,7 +182,7 @@ export function OpportunityDetailPage() {
           opportunityId={opp.id}
           opportunityTitle={opp.title}
           tenantId={tenantId}
-          onCreated={(appId) => router.navigate({ to: `${basePath}/drafts/${appId}` })}
+          onCreated={(appId) => router.navigate({ to: '/org/$slug/drafts/$id', params: { slug: slug || '', id: appId } })}
           onClose={() => setShowPreDraft(false)}
         />
       )}

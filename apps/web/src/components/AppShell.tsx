@@ -1,6 +1,7 @@
 import { Outlet, Link, useRouter, useParams } from "@tanstack/react-router";
 import { signOut } from "@/lib/auth";
 import { useAuth } from "@/hooks/useAuth";
+import { TenantThemeProvider } from "@/components/TenantThemeProvider";
 
 /**
  * Authenticated app shell with sidebar navigation.
@@ -11,9 +12,6 @@ export function AppShell() {
   const router = useRouter();
   const { slug } = useParams({ strict: false }) as { slug: string };
 
-  // Fallback if slug is somehow missing but they are logged in.
-  // In a real app we'd redirect to an org selector or fetch their default org.
-  const basePath = slug ? `/org/${slug}` : "/";
 
   async function handleSignOut() {
     await signOut();
@@ -37,7 +35,8 @@ export function AppShell() {
         {/* Nav */}
         <nav className="flex-1 px-3 py-4 space-y-1">
           <Link
-            to={basePath}
+            to="/org/$slug"
+            params={{ slug: slug || '' }}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-white/5 hover:text-white [&.active]:bg-white/8 [&.active]:text-white"
             activeProps={{ className: "active bg-white/8 text-white" }}
             id="nav-profile"
@@ -51,7 +50,8 @@ export function AppShell() {
           </Link>
 
           <Link
-            to={`${basePath}/vault`}
+            to="/org/$slug/vault"
+            params={{ slug: slug || '' }}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-white/5 hover:text-white [&.active]:bg-white/8 [&.active]:text-white"
             activeProps={{ className: "active bg-white/8 text-white" }}
             id="nav-vault"
@@ -64,7 +64,8 @@ export function AppShell() {
           </Link>
 
           <Link
-            to={`${basePath}/opportunities`}
+            to="/org/$slug/opportunities"
+            params={{ slug: slug || '' }}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-white/5 hover:text-white [&.active]:bg-white/8 [&.active]:text-white"
             activeProps={{ className: "active bg-white/8 text-white" }}
             id="nav-opportunities"
@@ -77,7 +78,8 @@ export function AppShell() {
           </Link>
 
           <Link
-            to={`${basePath}/pipeline`}
+            to="/org/$slug/pipeline"
+            params={{ slug: slug || '' }}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-white/5 hover:text-white [&.active]:bg-white/8 [&.active]:text-white"
             activeProps={{ className: "active bg-white/8 text-white" }}
             id="nav-pipeline"
@@ -90,7 +92,8 @@ export function AppShell() {
           </Link>
 
           <Link
-            to={`${basePath}/agents`}
+            to="/org/$slug/agents"
+            params={{ slug: slug || '' }}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-white/5 hover:text-white [&.active]:bg-white/8 [&.active]:text-white"
             activeProps={{ className: "active bg-white/8 text-white" }}
             id="nav-agents"
@@ -129,7 +132,9 @@ export function AppShell() {
 
       {/* Main Content */}
       <main className="flex-1 min-w-0 overflow-y-auto">
-        <Outlet />
+        <TenantThemeProvider>
+          <Outlet />
+        </TenantThemeProvider>
       </main>
     </div>
   );

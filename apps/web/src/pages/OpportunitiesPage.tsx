@@ -89,7 +89,6 @@ export function OpportunitiesPage() {
     { id: "dismissed", label: "Dismissed" }
   ];
 
-  const basePath = slug ? `/org/${slug}` : "";
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-8">
@@ -147,7 +146,8 @@ export function OpportunitiesPage() {
             return (
               <Link
                 key={opp.id}
-                to={`${basePath}/opportunities/${opp.id}`}
+                to="/org/$slug/opportunities/$id"
+                params={{ slug, id: opp.id }}
                 className="block bg-surface-card border border-neutral-200 rounded-xl p-5 hover:border-brand-primary/30 hover:shadow-md transition-all relative group"
               >
                 <div className="flex justify-between items-start mb-2">
