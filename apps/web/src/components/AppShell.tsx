@@ -2,6 +2,7 @@ import { Outlet, Link, useRouter, useParams } from "@tanstack/react-router";
 import { signOut } from "@/lib/auth";
 import { useAuth } from "@/hooks/useAuth";
 import { TenantThemeProvider } from "@/components/TenantThemeProvider";
+import { Logo } from "@/components/AppShell/Logo";
 
 /**
  * Authenticated app shell with sidebar navigation.
@@ -24,12 +25,7 @@ export function AppShell() {
       <aside className="w-64 bg-neutral-950 text-neutral-300 flex flex-col border-r border-white/5">
         {/* Logo */}
         <div className="flex items-center gap-3 px-5 py-5 border-b border-white/5">
-          <div className="w-8 h-8 rounded-lg bg-brand-primary flex items-center justify-center flex-shrink-0">
-            <svg viewBox="0 0 32 32" fill="none" className="w-5 h-5">
-              <path d="M16 6C12.5 6 10 8.5 10 11.5C10 14.5 12 16 14 17.5C14.5 17.9 15 18.3 15 19V22H17V19C17 18.3 17.5 17.9 18 17.5C20 16 22 14.5 22 11.5C22 8.5 19.5 6 16 6Z" fill="#D4A373" />
-            </svg>
-          </div>
-          <span className="font-serif text-lg font-bold text-white tracking-tight">Forager</span>
+          <Logo expanded={true} />
         </div>
 
         {/* Nav */}

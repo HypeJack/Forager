@@ -6,19 +6,11 @@ export function LoginPage() {
       <div className="w-full max-w-xl mx-auto px-6 py-12">
         {/* Logo & Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-primary mb-4 shadow-sm">
-            <svg viewBox="0 0 32 32" fill="none" className="w-8 h-8">
-              <path
-                d="M16 6C12.5 6 10 8.5 10 11.5C10 14.5 12 16 14 17.5C14.5 17.9 15 18.3 15 19V22H17V19C17 18.3 17.5 17.9 18 17.5C20 16 22 14.5 22 11.5C22 8.5 19.5 6 16 6Z"
-                fill="#D4A373"
-              />
-              <path
-                d="M14 24H18V25C18 25.6 17.6 26 17 26H15C14.4 26 14 25.6 14 25V24Z"
-                fill="#D4A373"
-                opacity="0.7"
-              />
-            </svg>
-          </div>
+          <img
+            src="/logo-forager.svg"
+            alt="Forager"
+            className="w-auto h-8 mx-auto mb-6"
+          />
           <h1 className="font-serif text-3xl font-bold text-neutral-950 mb-2">
             Welcome to Forager
           </h1>
