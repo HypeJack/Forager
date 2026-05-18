@@ -84,9 +84,6 @@ importers:
       vite:
         specifier: ^6.3.0
         version: 6.4.2(@types/node@22.19.17)(jiti@1.21.7)(yaml@2.8.4)
-      vite-plugin-image-optimizer:
-        specifier: ^2.0.3
-        version: 2.0.3(vite@6.4.2(@types/node@22.19.17)(jiti@1.21.7)(yaml@2.8.4))
 
   inngest:
     dependencies:
@@ -1388,10 +1385,6 @@ packages:
     resolution: {integrity: sha512-kja8j7PjmncONqaTsB8fQ+wE2mSU2DJ9D4XKoJ5PFWIdRMa6SLSN1ff4mOr4jCbfRSsxR4keIiySJU0N9T5hIQ==}
     engines: {node: '>= 8.0.0'}
 
-  ansi-colors@4.1.3:
-    resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
-    engines: {node: '>=6'}
-
   ansi-regex@4.1.1:
     resolution: {integrity: sha512-ILlv4k/3f6vfQ4OoP2AGvirOktlQ98ZEL1k9FaQjxa3L1abBgbuTDAdPOpvbGncC0BTVQrl+OM8xZGK6tWXt7g==}
     engines: {node: '>=6'}
@@ -2325,19 +2318,6 @@ packages:
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
-
-  vite-plugin-image-optimizer@2.0.3:
-    resolution: {integrity: sha512-1vrFOTcpSvv6DCY7h8UXab4wqMAjTJB/ndOzG/Kmj1oDOuPF6mbjkNQoGzzCEYeWGe7qU93jc8oQqvoJ57al3A==}
-    engines: {node: '>=18.17.0'}
-    peerDependencies:
-      sharp: '>=0.34.0'
-      svgo: '>=4'
-      vite: '>=5'
-    peerDependenciesMeta:
-      sharp:
-        optional: true
-      svgo:
-        optional: true
 
   vite@6.4.2:
     resolution: {integrity: sha512-2N/55r4JDJ4gdrCvGgINMy+HH3iRpNIz8K6SFwVsA+JbQScLiC+clmAxBgwiSPgcG9U15QmvqCGWzMbqda5zGQ==}
@@ -3828,8 +3808,6 @@ snapshots:
     dependencies:
       humanize-ms: 1.2.1
 
-  ansi-colors@4.1.3: {}
-
   ansi-regex@4.1.1: {}
 
   ansi-regex@5.0.1: {}
@@ -4797,12 +4775,6 @@ snapshots:
       react: 19.2.6
 
   util-deprecate@1.0.2: {}
-
-  vite-plugin-image-optimizer@2.0.3(vite@6.4.2(@types/node@22.19.17)(jiti@1.21.7)(yaml@2.8.4)):
-    dependencies:
-      ansi-colors: 4.1.3
-      pathe: 2.0.3
-      vite: 6.4.2(@types/node@22.19.17)(jiti@1.21.7)(yaml@2.8.4)
 
   vite@6.4.2(@types/node@22.19.17)(jiti@1.21.7)(yaml@2.8.4):
     dependencies:
