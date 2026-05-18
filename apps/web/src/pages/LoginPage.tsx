@@ -9,7 +9,7 @@ export function LoginPage() {
           <img
             src="/logo-forager.svg"
             alt="Forager"
-            className="w-auto h-8 mx-auto mb-6"
+            className="w-auto h-20 mx-auto mb-6"
           />
           <h1 className="font-serif text-3xl font-bold text-neutral-950 mb-2">
             Welcome to Forager
@@ -62,9 +62,7 @@ export function LoginPage() {
           </Link>
         </div>
 
-        <p className="text-center text-xs text-neutral-400 mt-10 uppercase tracking-widest font-semibold">
-          Editorial / Trust
-        </p>
+
       </div>
     </div>
   );
