@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -10 56 70" width="40" height="48" role="img" aria-label="Forager">
+  <title>Forager</title>
+  <!--
+    Forager mark only (no wordmark).
+    Used in: collapsed AppShell sidebar (64px width), small UI surfaces,
+    tab favicons in some configurations, app icon scenarios.
+    Slightly larger berry than the favicon for clarity at midsize.
+  -->
+  <g fill="none" stroke="#3F5236" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 0 60 Q 5 30, 15 0"/>
+    <path d="M 11 25 Q -5 20, -8 8 Q 5 12, 11 25 Z" fill="#3F5236" stroke="none"/>
+    <path d="M 13 12 Q 28 8, 32 -4 Q 18 -2, 13 12 Z" fill="#3F5236" stroke="none"/>
+  </g>
+  <circle cx="15" cy="-2" r="3.5" fill="#A87A3D"/>
+</svg>
