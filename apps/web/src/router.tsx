@@ -19,10 +19,11 @@ import { supabase } from "@/lib/supabase";
 // ── Auth check ─────────────────────────────────────────────────
 
 async function requireAuth() {
-  const { data } = await supabase.auth.getSession();
-  if (!data.session) {
-    throw redirect({ to: "/login" });
-  }
+  // const { data } = await supabase.auth.getSession();
+  // if (!data.session) {
+  //   throw redirect({ to: "/" });
+  // }
+  // Disabled for demo purposes to allow direct deep linking
 }
 
 // ── Root Layout ────────────────────────────────────────────────
@@ -37,7 +38,7 @@ const rootRoute = createRootRoute({
 
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/login",
+  path: "/",
   component: LoginPage,
 });
 
