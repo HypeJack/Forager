@@ -20,16 +20,34 @@ importers:
 
   apps/api:
     dependencies:
+      '@anthropic-ai/sdk':
+        specifier: ^0.33.1
+        version: 0.33.1
       '@forager/inngest':
         specifier: workspace:*
         version: link:../../inngest
+      '@google/genai':
+        specifier: ^2.0.0
+        version: 2.0.0
+      '@supabase/supabase-js':
+        specifier: ^2.49.0
+        version: 2.105.3
+      cheerio:
+        specifier: 1.0.0-rc.12
+        version: 1.0.0-rc.12
       inngest:
         specifier: ^3.30.0
         version: 3.54.2(@opentelemetry/core@2.7.1(@opentelemetry/api@1.9.1))(@vercel/node@3.2.29)(typescript@5.9.3)(zod@3.25.76)
+      openai:
+        specifier: ^4.76.0
+        version: 4.104.0(ws@8.20.0)(zod@3.25.76)
     devDependencies:
       '@vercel/node':
         specifier: ^3.0.0
         version: 3.2.29
+      esbuild:
+        specifier: ^0.25.0
+        version: 0.25.12
       typescript:
         specifier: ^5.7.0
         version: 5.9.3

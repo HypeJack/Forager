@@ -8,13 +8,19 @@
   },
   "dependencies": {
     "@forager/inngest": "workspace:*",
-    "inngest": "^3.30.0"
+    "inngest": "^3.30.0",
+    "openai": "^4.76.0",
+    "@anthropic-ai/sdk": "^0.33.1",
+    "@google/genai": "^2.0.0",
+    "@supabase/supabase-js": "^2.49.0",
+    "cheerio": "1.0.0-rc.12"
   },
   "devDependencies": {
     "@vercel/node": "^3.0.0",
+    "esbuild": "^0.25.0",
     "typescript": "^5.7.0"
   },
   "scripts": {
-    "build": "cd ../.. && turbo run build --filter=@forager/api^..."
+    "build": "cd ../.. && turbo run build --filter=@forager/api^... && cd apps/api && esbuild src/inngest.ts --bundle --platform=node --target=node20 --format=esm --outfile=api/inngest.js --external:inngest --external:openai --external:@anthropic-ai/sdk --external:@google/genai --external:@supabase/supabase-js --external:cheerio"
   }
 }
