@@ -5,7 +5,7 @@
 -- ── vault_documents ────────────────────────────────────────────
 
 CREATE TABLE vault_documents (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
   title TEXT NOT NULL,
   file_path TEXT NOT NULL,
@@ -31,7 +31,7 @@ CREATE TRIGGER set_vault_documents_updated_at
 -- ── vault_chunks ───────────────────────────────────────────────
 
 CREATE TABLE vault_chunks (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   document_id UUID NOT NULL REFERENCES vault_documents(id) ON DELETE CASCADE,
   tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
   content TEXT NOT NULL,

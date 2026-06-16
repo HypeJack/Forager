@@ -2,7 +2,7 @@
 -- Grant opportunities and match results tables.
 
 CREATE TABLE grant_opportunities (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
   title TEXT NOT NULL,
   funder TEXT NOT NULL,
@@ -31,7 +31,7 @@ CREATE TRIGGER set_grants_updated_at
 
 -- Grant matches — scored results from agent evaluation
 CREATE TABLE grant_matches (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
   opportunity_id UUID NOT NULL REFERENCES grant_opportunities(id) ON DELETE CASCADE,
   score NUMERIC NOT NULL CHECK (score >= 0 AND score <= 100),

@@ -7,15 +7,15 @@
 INSERT INTO tenants (id, name, slug, settings) VALUES (
   'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
   'Sunrise Community Health',
-  'sunrise-community-health',
+  'sunrise',
   '{
     "grant_categories": ["community_health", "behavioral_health", "maternal_child", "substance_use", "health_equity"],
     "max_concurrent_runs": 5,
     "features": {
       "scout_enabled": true,
-      "strategist_enabled": false,
-      "writer_enabled": false,
-      "reviewer_enabled": false
+      "librarian_enabled": false,
+      "architect_enabled": false,
+      "liaison_enabled": false
     }
   }'::jsonb
 );
@@ -43,7 +43,7 @@ INSERT INTO org_profiles (tenant_id, name, mission, focus_areas, annual_budget, 
 
 INSERT INTO vault_documents (id, tenant_id, title, file_path, file_type, file_size_bytes, status, chunk_count) VALUES
   (
-    'doc-11111111-0001-0001-0001-000000000001',
+    'd0c11111-0001-0001-0001-000000000001',
     'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
     'FY2025 Annual Report',
     'vault/seed/fy2025-annual-report.pdf',
@@ -53,7 +53,7 @@ INSERT INTO vault_documents (id, tenant_id, title, file_path, file_type, file_si
     34
   ),
   (
-    'doc-11111111-0001-0001-0001-000000000002',
+    'd0c11111-0001-0001-0001-000000000002',
     'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
     '2024-2027 Strategic Plan',
     'vault/seed/strategic-plan-2024-2027.pdf',
@@ -63,7 +63,7 @@ INSERT INTO vault_documents (id, tenant_id, title, file_path, file_type, file_si
     28
   ),
   (
-    'doc-11111111-0001-0001-0001-000000000003',
+    'd0c11111-0001-0001-0001-000000000003',
     'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
     'Community Needs Assessment 2024',
     'vault/seed/community-needs-assessment-2024.pdf',
@@ -73,7 +73,7 @@ INSERT INTO vault_documents (id, tenant_id, title, file_path, file_type, file_si
     42
   ),
   (
-    'doc-11111111-0001-0001-0001-000000000004',
+    'd0c11111-0001-0001-0001-000000000004',
     'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
     'Board of Directors & Leadership',
     'vault/seed/board-and-leadership.pdf',
@@ -83,7 +83,7 @@ INSERT INTO vault_documents (id, tenant_id, title, file_path, file_type, file_si
     8
   ),
   (
-    'doc-11111111-0001-0001-0001-000000000005',
+    'd0c11111-0001-0001-0001-000000000005',
     'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
     'HRSA CHW Training Grant Application (2023)',
     'vault/seed/hrsa-chw-grant-application-2023.pdf',
@@ -98,46 +98,46 @@ INSERT INTO vault_documents (id, tenant_id, title, file_path, file_type, file_si
 
 -- Annual Report excerpts
 INSERT INTO vault_chunks (document_id, tenant_id, content, chunk_index) VALUES
-  ('doc-11111111-0001-0001-0001-000000000001', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+  ('d0c11111-0001-0001-0001-000000000001', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
    'In FY2025, Sunrise Community Health served 12,347 unduplicated patients across our three clinic locations. Our patient population is 68% Hispanic/Latino, 22% non-Hispanic White, and 10% other racial/ethnic groups. Approximately 71% of our patients live at or below 200% of the Federal Poverty Level. We maintained a sliding fee discount program that provided $2.1 million in uncompensated care.',
    0),
-  ('doc-11111111-0001-0001-0001-000000000001', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+  ('d0c11111-0001-0001-0001-000000000001', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
    'Our behavioral health program expanded significantly in FY2025, integrating two additional Licensed Clinical Social Workers into our primary care teams. This Collaborative Care Model resulted in a 34% increase in depression screening rates and a 28% improvement in PHQ-9 response rates among patients with moderate-to-severe depression. SBIRT screenings for substance use increased by 45%.',
    1),
-  ('doc-11111111-0001-0001-0001-000000000001', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+  ('d0c11111-0001-0001-0001-000000000001', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
    'Total revenue for FY2025 was $4.2 million, comprising: Federal grants (HRSA Section 330) $1.8M (43%), patient revenue and third-party reimbursement $1.6M (38%), state grants $450K (11%), and private foundation support $350K (8%). Operating expenses totaled $3.9M, yielding a modest surplus of $300K directed to capital reserves for our planned telehealth expansion.',
    2);
 
 -- Strategic Plan excerpts
 INSERT INTO vault_chunks (document_id, tenant_id, content, chunk_index) VALUES
-  ('doc-11111111-0001-0001-0001-000000000002', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+  ('d0c11111-0001-0001-0001-000000000002', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
    'Strategic Priority 1: Expand Access through Telehealth. By 2027, Sunrise will establish a comprehensive telehealth platform capable of delivering primary care, behavioral health, and specialty consultations to patients in our 4,200 square mile service area. Target: 30% of all visits delivered via telehealth by FY2027, up from 8% in FY2024.',
    0),
-  ('doc-11111111-0001-0001-0001-000000000002', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+  ('d0c11111-0001-0001-0001-000000000002', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
    'Strategic Priority 3: Workforce Development. Develop a Community Health Worker (CHW) program to extend our reach into isolated frontier communities. Train and deploy 6 CHWs by FY2026, focusing on culturally concordant outreach to Spanish-speaking families in agricultural communities. Partner with Mesa County Workforce Center for CHW certification training.',
    1);
 
 -- Needs Assessment excerpts
 INSERT INTO vault_chunks (document_id, tenant_id, content, chunk_index) VALUES
-  ('doc-11111111-0001-0001-0001-000000000003', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+  ('d0c11111-0001-0001-0001-000000000003', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
    'Our service area encompasses three counties in Western Colorado designated as Health Professional Shortage Areas (HPSAs) for primary care, dental, and mental health. The primary care HPSA score is 18 (out of 25), indicating severe shortage. The nearest Level I trauma center is 250 miles from our most remote service location. Maternal mortality rates in the region are 2.3x the state average.',
    0),
-  ('doc-11111111-0001-0001-0001-000000000003', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+  ('d0c11111-0001-0001-0001-000000000003', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
    'Key findings from community focus groups: (1) Transportation remains the #1 barrier to care access, with 43% of respondents reporting missed appointments due to travel distance; (2) Stigma around behavioral health treatment is significant, particularly in agricultural communities; (3) 67% of Spanish-speaking respondents prefer receiving health information from promotores or community health workers rather than clinic-based providers.',
    1);
 
 -- Board document excerpts
 INSERT INTO vault_chunks (document_id, tenant_id, content, chunk_index) VALUES
-  ('doc-11111111-0001-0001-0001-000000000004', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+  ('d0c11111-0001-0001-0001-000000000004', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
    'Board of Directors: Dr. Elena Ramirez (Chair, Family Medicine physician), Marcus Thompson (Vice Chair, Mesa County Commissioner), Sofia Hernandez-Vega (Secretary, Community Organizer), Robert Chen CPA (Treasurer), Dr. Patricia Whitehorse (Tribal Health Director, Southern Ute), James O''Brien (Patient Representative), Dr. Aminata Diallo (University of Colorado School of Public Health).',
    0);
 
 -- Past grant application excerpts
 INSERT INTO vault_chunks (document_id, tenant_id, content, chunk_index) VALUES
-  ('doc-11111111-0001-0001-0001-000000000005', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+  ('d0c11111-0001-0001-0001-000000000005', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
    'Project Narrative: Sunrise Community Health proposes to train and deploy 8 Community Health Workers (CHWs) across three frontier counties in Western Colorado. Our CHW program will target three priority populations: (1) Spanish-speaking agricultural worker families, (2) elderly residents in isolated rural communities, and (3) individuals with co-occurring behavioral health and substance use disorders.',
    0),
-  ('doc-11111111-0001-0001-0001-000000000005', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+  ('d0c11111-0001-0001-0001-000000000005', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
    'Organizational Capacity: Sunrise Community Health has operated as a Federally Qualified Health Center since 2003 and has been a HRSA Health Center Program grantee for 20 consecutive years. We have successfully managed federal awards totaling over $25 million, including three HRSA Service Expansion grants, two SAMHSA behavioral health integration awards, and one CDC chronic disease prevention cooperative agreement. Our most recent single audit (FY2024) contained zero findings.',
    1);
 

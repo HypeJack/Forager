@@ -21,10 +21,11 @@ VALUES (
 
 -- Seed a user for Northwood demo
 -- (In a real system, auth.users is managed by Supabase, so this is just for DB structure demo)
-INSERT INTO users (id, tenant_id, role, email)
+INSERT INTO users (id, tenant_id, role, email, full_name)
 VALUES (
-  'd0f2e8b4-5a6b-4c1d-8e7f-9g8h7i6j5k4l',
+  'd0f2e8b4-5a6b-4c1d-8e7f-9f8e7d6c5b4a',
   'b0e2b9c0-9a4f-4d1e-8e6b-7d1c6e5a4b3c',
   'admin',
-  'admin@northwood.org'
+  'admin@northwood.org',
+  'Northwood Admin'
 ) ON CONFLICT (id) DO NOTHING;

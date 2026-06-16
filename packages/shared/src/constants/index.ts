@@ -21,9 +21,9 @@ export const GRANT_STATUS_ORDER = [
 /** Agent types available in the system */
 export const AGENT_TYPES = [
   "scout",
-  "strategist",
-  "writer",
-  "reviewer",
+  "librarian",
+  "architect",
+  "liaison",
 ] as const;
 
 /** Default pagination */

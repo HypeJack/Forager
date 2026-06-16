@@ -18,7 +18,7 @@ ALTER TABLE grant_opportunities
 
 -- 4. Liaison CRM mock table
 CREATE TABLE crm_sync_logs (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
   opportunity_id UUID REFERENCES grant_opportunities(id) ON DELETE SET NULL,
   sync_type TEXT NOT NULL, -- 'status_update', 'submission_summary', 'decision_ack'

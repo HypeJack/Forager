@@ -2,7 +2,7 @@
  * Agent run types — Tracks execution of agentic workflows.
  */
 
-export type AgentType = "scout" | "strategist" | "writer" | "reviewer";
+export type AgentType = "scout" | "librarian" | "architect" | "liaison";
 
 export type AgentRunStatus =
   | "queued"

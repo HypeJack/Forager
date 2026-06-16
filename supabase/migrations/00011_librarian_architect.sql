@@ -16,7 +16,7 @@ CREATE INDEX IF NOT EXISTS idx_vault_chunks_fts
 -- ── 2. grant_applications ─────────────────────────────────────
 
 CREATE TABLE grant_applications (
-  id                UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   tenant_id         UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
   opportunity_id    UUID NOT NULL REFERENCES grant_opportunities(id) ON DELETE CASCADE,
 
