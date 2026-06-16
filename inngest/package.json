@@ -16,17 +16,19 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@forager/shared": "workspace:*",
     "@forager/agents": "workspace:*",
+    "@forager/db": "workspace:*",
     "@forager/orchestration": "workspace:*",
+    "@forager/shared": "workspace:*",
     "@supabase/supabase-js": "^2.49.0",
     "inngest": "^3.30.0",
     "openai": "^4.76.0",
-    "@forager/db": "workspace:*"
+    "pdf-parse": "1.1.1"
   },
   "devDependencies": {
-    "typescript": "^5.7.0",
-    "tsup": "^8.0.0"
+    "@types/pdf-parse": "1.1.4",
+    "tsup": "^8.0.0",
+    "typescript": "^5.7.0"
   },
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts"

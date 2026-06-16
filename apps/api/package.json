@@ -7,13 +7,14 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "@forager/inngest": "workspace:*",
-    "inngest": "^3.30.0",
-    "openai": "^4.76.0",
     "@anthropic-ai/sdk": "^0.33.1",
+    "@forager/inngest": "workspace:*",
     "@google/genai": "^2.0.0",
     "@supabase/supabase-js": "^2.49.0",
-    "cheerio": "1.0.0-rc.12"
+    "cheerio": "1.0.0-rc.12",
+    "inngest": "^3.30.0",
+    "openai": "^4.76.0",
+    "pdf-parse": "1.1.1"
   },
   "devDependencies": {
     "@vercel/node": "^3.0.0",
@@ -21,6 +22,6 @@
     "typescript": "^5.7.0"
   },
   "scripts": {
-    "build": "cd ../.. && turbo run build --filter=@forager/api^... && cd apps/api && esbuild src/inngest.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/inngest.js --external:inngest --external:openai --external:@anthropic-ai/sdk --external:@google/genai --external:@supabase/supabase-js --external:cheerio"
+    "build": "cd ../.. && turbo run build --filter=@forager/api^... && cd apps/api && esbuild src/inngest.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/inngest.js --external:inngest --external:openai --external:@anthropic-ai/sdk --external:@google/genai --external:@supabase/supabase-js --external:cheerio --external:pdf-parse"
   }
 }

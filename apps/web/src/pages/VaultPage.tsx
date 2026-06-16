@@ -77,17 +77,42 @@ export function VaultPage() {
 
       // 2. Insert document record — status starts as "processing"
       // The Inngest worker will pick it up and process it
-      const { error: dbError } = await supabase.from("vault_documents").insert({
+      const { data: dbData, error: dbError } = await supabase.from("vault_documents").insert({
         title: file.name.replace(/\.[^.]+$/, ""),
         file_path: filePath,
         file_type: file.type || "application/octet-stream",
         file_size_bytes: file.size,
         status: "processing",
         chunk_count: 0,
-      });
+      }).select("id, tenant_id").single();
 
       if (dbError) {
         console.error("DB insert failed:", dbError.message);
+        continue;
+      }
+      
+      if (!dbData) {
+        console.error("DB insert succeeded but returned no data.");
+        continue;
+      }
+
+      // 3. Fire the Inngest event
+      try {
+        const { error: invokeError } = await supabase.functions.invoke("emit-inngest-event", {
+          body: {
+            name: "vault/document.uploaded",
+            data: {
+              documentId: dbData.id,
+              tenantId: dbData.tenant_id,
+            },
+          },
+        });
+        
+        if (invokeError) {
+          console.error("Document uploaded, but processing trigger failed (invoke error):", invokeError.message);
+        }
+      } catch (err: any) {
+        console.error("Document uploaded, but processing trigger failed (exception):", err.message || err);
       }
     }
 

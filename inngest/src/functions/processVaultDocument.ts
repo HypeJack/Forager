@@ -101,10 +101,36 @@ export const processVaultDocument = inngest.createFunction(
 
       if (error || !data) throw new Error(`Failed to download: ${doc.file_path}`);
 
-      // For now, handle text-based files. PDF parsing would require a library.
-      const text = await data.text();
-      return text;
+      let text = "";
+      const isPdf = doc.file_type === "application/pdf" || doc.file_path.toLowerCase().endsWith(".pdf");
+
+      try {
+        if (isPdf) {
+          const arrayBuffer = await data.arrayBuffer();
+          const buffer = Buffer.from(arrayBuffer);
+          
+          // Import pdf-parse dynamically to avoid top-level bundle issues
+          const pdfParse = (await import("pdf-parse")).default;
+          const parsed = await pdfParse(buffer);
+          text = parsed.text || "";
+        } else {
+          text = await data.text();
+        }
+      } catch (err) {
+        console.error("Parse error:", err);
+        text = ""; // Empty text will trigger the failure flow below
+      }
+
+      return text.trim();
     });
+
+    // Handle extraction failures without retrying forever
+    if (!rawText) {
+      await step.run("mark-failed", async () => {
+        await supabase.from("vault_documents").update({ status: "failed" }).eq("id", documentId);
+      });
+      return { documentId, status: "failed", reason: "Text extraction failed or empty" };
+    }
 
     // Step 3: Chunk the text
     const chunks = await step.run("chunk-text", async () => {
