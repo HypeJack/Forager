@@ -1,4 +1,4 @@
-import { serve } from "inngest/edge";
+import { serve } from "inngest/node";
 import { 
   inngest, 
   architectStream, 
