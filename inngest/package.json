@@ -3,13 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "scripts": {
-    "dev": "npx inngest-cli@latest dev",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "tsc"
   },
   "dependencies": {
     "@forager/shared": "workspace:*",
@@ -17,9 +21,13 @@
     "@forager/orchestration": "workspace:*",
     "@supabase/supabase-js": "^2.49.0",
     "inngest": "^3.30.0",
-    "openai": "^4.76.0"
+    "openai": "^4.76.0",
+    "@forager/db": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.7.0"
-  }
+    "typescript": "^5.7.0",
+    "tsup": "^8.0.0"
+  },
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts"
 }

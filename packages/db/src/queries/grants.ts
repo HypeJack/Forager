@@ -1,4 +1,7 @@
+
+
 import type { ForagerClient } from "../client.js";
+import type { Json } from "../types.js";
 import type { GrantOpportunity, GrantStatus } from "@forager/shared";
 
 /**
@@ -40,7 +43,10 @@ export async function createGrant(
 ) {
   const { data, error } = await client
     .from("grant_opportunities")
-    .insert(grant)
+    .insert({
+      ...grant,
+      metadata: grant.metadata as unknown as Json,
+    })
     .select()
     .single();
 

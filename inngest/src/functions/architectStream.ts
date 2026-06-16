@@ -17,9 +17,8 @@ import { inngest } from "../client.js";
 import { createClient } from "@supabase/supabase-js";
 import OpenAI from "openai";
 import { streamLLM } from "@forager/orchestration";
-import { hybridSearchVault } from "@forager/db/src/queries/librarian.js";
-import { updateSectionContent, updateApplicationStatus, getApplication } from "@forager/db/src/queries/applications.js";
-import type { TenantPlan } from "@forager/shared/types/tenant.js";
+import { hybridSearchVault, updateSectionContent, updateApplicationStatus, getApplication } from "@forager/db";
+import type { TenantPlan } from "@forager/shared";
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,

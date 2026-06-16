@@ -1,4 +1,6 @@
+
 import type { ForagerClient } from "../client.js";
+import type { Json } from "../types.js";
 
 export interface ApplicationOutlineSection {
   id: string;
@@ -34,12 +36,15 @@ export async function createApplication(
 ): Promise<GrantApplication> {
   const { data, error } = await client
     .from("grant_applications")
-    .insert(payload)
+    .insert({
+      ...payload,
+      outline: payload.outline as unknown as Json,
+    })
     .select()
     .single();
 
   if (error) throw new Error(`Failed to create application: ${error.message}`);
-  return data as GrantApplication;
+  return { ...data, outline: data.outline as unknown as ApplicationOutlineSection[] } as GrantApplication;
 }
 
 export async function getApplication(
@@ -72,14 +77,14 @@ export async function updateSectionContent(
 
   if (fetchErr || !data) throw new Error("Failed to fetch application for update");
 
-  const outline = (data.outline as ApplicationOutlineSection[]).map((s) =>
+  const outline = (data.outline as unknown as ApplicationOutlineSection[]).map((s) =>
     s.id === sectionId ? { ...s, status: "complete" as const, content } : s
   );
 
   await client
     .from("grant_applications")
     .update({
-      outline,
+      outline: outline as unknown as Json,
       current_section: null,
       total_tokens_used: (data.total_tokens_used ?? 0) + tokensUsed,
     })

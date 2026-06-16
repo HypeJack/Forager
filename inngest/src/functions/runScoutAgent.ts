@@ -1,7 +1,6 @@
 import { inngest } from "../client.js";
 import { createClient } from "@supabase/supabase-js";
-import { searchGrantsGov } from "@forager/agents/src/scout/sources/grants-gov.js";
-import { browseLillyEndowment } from "@forager/agents/src/scout/sources/lilly-endowment.js";
+import { searchGrantsGov, browseLillyEndowment } from "@forager/agents";
 import { callLLM } from "@forager/orchestration";
 
 const supabase = createClient(

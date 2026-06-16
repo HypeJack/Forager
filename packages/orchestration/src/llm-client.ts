@@ -1,5 +1,5 @@
 import { selectModel, type AgentTask } from './model-router.js';
-import type { TenantPlan } from '@forager/shared/types/tenant.js';
+import type { TenantPlan } from '@forager/shared';
 import Anthropic from '@anthropic-ai/sdk';
 import { GoogleGenAI } from '@google/genai';
 

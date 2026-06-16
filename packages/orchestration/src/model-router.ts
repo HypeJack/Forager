@@ -1,4 +1,4 @@
-import type { TenantPlan } from '@forager/shared/types/tenant';
+import type { TenantPlan } from '@forager/shared';
 
 export type Provider = 'anthropic' | 'google' | 'openai';
 

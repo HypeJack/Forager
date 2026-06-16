@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "dependencies": {
     "@forager/shared": "workspace:*",
@@ -13,6 +17,12 @@
     "@google/genai": "^2.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.7.0"
-  }
+    "typescript": "^5.7.0",
+    "tsup": "^8.0.0"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts"
 }

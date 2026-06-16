@@ -13,5 +13,8 @@
   "devDependencies": {
     "@vercel/node": "^3.0.0",
     "typescript": "^5.7.0"
+  },
+  "scripts": {
+    "build": "cd ../.. && turbo run build --filter=@forager/api^..."
   }
 }

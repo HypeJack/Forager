@@ -1,3 +1,5 @@
+
+
 import type { ForagerClient } from "../client.js";
 
 export interface LibrarianResult {
@@ -28,7 +30,7 @@ export async function hybridSearchVault(
 ): Promise<LibrarianResult[]> {
   const { data, error } = await client.rpc("hybrid_search_vault", {
     query_text: queryText,
-    query_embedding: queryEmbedding,
+    query_embedding: JSON.stringify(queryEmbedding),
     p_tenant_id: tenantId,
     match_count: options.matchCount ?? 5,
     vector_weight: options.vectorWeight ?? 0.6,

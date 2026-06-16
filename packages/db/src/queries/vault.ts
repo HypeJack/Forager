@@ -1,3 +1,5 @@
+
+
 import type { ForagerClient } from "../client.js";
 
 export interface VaultChunkMatch {
@@ -18,7 +20,7 @@ export async function matchVaultChunks(
   options: { threshold?: number; count?: number } = {}
 ): Promise<VaultChunkMatch[]> {
   const { data, error } = await client.rpc("match_vault_chunks", {
-    query_embedding: queryEmbedding,
+    query_embedding: JSON.stringify(queryEmbedding),
     match_threshold: options.threshold ?? 0.7,
     match_count: options.count ?? 5,
     p_tenant_id: tenantId,
