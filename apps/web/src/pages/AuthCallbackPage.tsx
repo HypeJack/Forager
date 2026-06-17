@@ -12,12 +12,12 @@ export function AuthCallbackPage() {
         console.error("Auth callback error:", error.message);
         setError(error.message);
       } else if (data.session) {
-        navigate({ to: "/opportunities" });
+        navigate({ to: "/" });
       } else {
         // Sometimes the session takes a moment to establish or PKCE exchanges via hash
         supabase.auth.onAuthStateChange((event, session) => {
           if (event === "SIGNED_IN" && session) {
-            navigate({ to: "/opportunities" });
+            navigate({ to: "/" });
           }
         });
       }
@@ -33,7 +33,7 @@ export function AuthCallbackPage() {
           <p className="font-medium">Verification failed</p>
           <p className="text-sm mt-1">{error}</p>
           <button
-            onClick={() => navigate({ to: "/" })}
+            onClick={() => navigate({ to: "/login" })}
             className="mt-4 px-4 py-2 bg-red-100 hover:bg-red-200 rounded-lg font-medium transition-colors"
           >
             Return to login

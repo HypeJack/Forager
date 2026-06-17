@@ -23,7 +23,7 @@ import { supabase } from "@/lib/supabase";
 async function requireAuth() {
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) {
-    throw redirect({ to: "/" });
+    throw redirect({ to: "/login" });
   }
   
   // Also check if user has a tenant
@@ -50,7 +50,7 @@ const rootRoute = createRootRoute({
 
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/",
+  path: "/login",
   component: LoginPage,
 });
 

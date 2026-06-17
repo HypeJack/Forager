@@ -6,7 +6,7 @@ export function WaitlistPage() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    navigate({ to: "/" });
+    navigate({ to: "/login" });
   };
 
   return (
