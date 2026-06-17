@@ -176,7 +176,7 @@ export const processVaultDocument = inngest.createFunction(
         tenant_id: tenantId,
         content,
         chunk_index: i,
-        embedding: embeddings[i],
+        embedding: JSON.stringify(embeddings[i]),
       }));
 
       const { error } = await supabase
