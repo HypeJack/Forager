@@ -8,7 +8,7 @@ type Tab = "discovered" | "watchlist" | "saved" | "dismissed";
 
 export function OpportunitiesPage() {
   const { user } = useAuth();
-  const { slug } = useParams({ strict: false }) as { slug: string };
+  
   const [opportunities, setOpportunities] = useState<GrantOpportunity[]>([]);
   const [loading, setLoading] = useState(true);
   const [runningScout, setRunningScout] = useState(false);
@@ -146,8 +146,8 @@ export function OpportunitiesPage() {
             return (
               <Link
                 key={opp.id}
-                to="/org/$slug/opportunities/$id"
-                params={{ slug, id: opp.id }}
+                to="/opportunities/$id"
+                params={{ id: opp.id }}
                 className="block bg-surface-card border border-neutral-200 rounded-xl p-5 hover:border-brand-primary/30 hover:shadow-md transition-all relative group"
               >
                 <div className="flex justify-between items-start mb-2">

@@ -69,7 +69,7 @@ export function OpportunityDetailPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-8">
-      <Link to="/org/$slug/opportunities" params={{ slug: slug || '' }} className="inline-flex items-center gap-2 text-sm font-medium text-brand-primary hover:underline mb-6">
+      <Link to="/opportunities" params={{ slug: slug || '' }} className="inline-flex items-center gap-2 text-sm font-medium text-brand-primary hover:underline mb-6">
         &larr; Back to Feed
       </Link>
       
@@ -182,7 +182,7 @@ export function OpportunityDetailPage() {
           opportunityId={opp.id}
           opportunityTitle={opp.title}
           tenantId={tenantId}
-          onCreated={(appId) => router.navigate({ to: '/org/$slug/drafts/$id', params: { slug: slug || '', id: appId } })}
+          onCreated={(appId) => router.navigate({ to: '/drafts/$id', params: { id: appId } })}
           onClose={() => setShowPreDraft(false)}
         />
       )}

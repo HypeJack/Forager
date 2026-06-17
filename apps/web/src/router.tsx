@@ -6,6 +6,8 @@ import {
   redirect,
 } from "@tanstack/react-router";
 import { LoginPage } from "@/pages/LoginPage";
+import { AuthCallbackPage } from "@/pages/AuthCallbackPage";
+import { WaitlistPage } from "@/pages/WaitlistPage";
 import { VaultPage } from "@/pages/VaultPage";
 import { OrgProfilePage } from "@/pages/OrgProfilePage";
 import { OpportunitiesPage } from "@/pages/OpportunitiesPage";
@@ -19,11 +21,21 @@ import { supabase } from "@/lib/supabase";
 // ── Auth check ─────────────────────────────────────────────────
 
 async function requireAuth() {
-  // const { data } = await supabase.auth.getSession();
-  // if (!data.session) {
-  //   throw redirect({ to: "/" });
-  // }
-  // Disabled for demo purposes to allow direct deep linking
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    throw redirect({ to: "/" });
+  }
+  
+  // Also check if user has a tenant
+  const { data: user } = await supabase
+    .from("users")
+    .select("tenant_id")
+    .eq("id", session.user.id)
+    .single();
+    
+  if (!user || !user.tenant_id) {
+    throw redirect({ to: "/waitlist" });
+  }
 }
 
 // ── Root Layout ────────────────────────────────────────────────
@@ -42,6 +54,18 @@ const loginRoute = createRoute({
   component: LoginPage,
 });
 
+const callbackRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/auth/callback",
+  component: AuthCallbackPage,
+});
+
+const waitlistRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/waitlist",
+  component: WaitlistPage,
+});
+
 // ── Authenticated Shell ────────────────────────────────────────
 
 const appRoute = createRoute({
@@ -51,51 +75,46 @@ const appRoute = createRoute({
   component: AppShell,
 });
 
-// ── Tenant Scoped Routes (/org/$slug) ──────────────────────────
-
-const orgLayout = createRoute({
-  getParentRoute: () => appRoute,
-  path: "/org/$slug",
-});
+// ── Flattened Routes (No Slug) ─────────────────────────────────
 
 const indexRoute = createRoute({
-  getParentRoute: () => orgLayout,
+  getParentRoute: () => appRoute,
   path: "/",
   component: OrgProfilePage,
 });
 
 const vaultRoute = createRoute({
-  getParentRoute: () => orgLayout,
+  getParentRoute: () => appRoute,
   path: "/vault",
   component: VaultPage,
 });
 
 const opportunitiesRoute = createRoute({
-  getParentRoute: () => orgLayout,
+  getParentRoute: () => appRoute,
   path: "/opportunities",
   component: OpportunitiesPage,
 });
 
 const opportunityDetailRoute = createRoute({
-  getParentRoute: () => orgLayout,
+  getParentRoute: () => appRoute,
   path: "/opportunities/$id",
   component: OpportunityDetailPage,
 });
 
 const draftEditorRoute = createRoute({
-  getParentRoute: () => orgLayout,
+  getParentRoute: () => appRoute,
   path: "/drafts/$id",
   component: DraftEditorPage,
 });
 
 const pipelineRoute = createRoute({
-  getParentRoute: () => orgLayout,
+  getParentRoute: () => appRoute,
   path: "/pipeline",
   component: PipelinePage,
 });
 
 const agentsRoute = createRoute({
-  getParentRoute: () => orgLayout,
+  getParentRoute: () => appRoute,
   path: "/agents",
   component: AgentActivityPage,
 });
@@ -104,16 +123,16 @@ const agentsRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   loginRoute,
+  callbackRoute,
+  waitlistRoute,
   appRoute.addChildren([
-    orgLayout.addChildren([
-      indexRoute,
-      vaultRoute,
-      opportunitiesRoute,
-      opportunityDetailRoute,
-      draftEditorRoute,
-      pipelineRoute,
-      agentsRoute,
-    ]),
+    indexRoute,
+    vaultRoute,
+    opportunitiesRoute,
+    opportunityDetailRoute,
+    draftEditorRoute,
+    pipelineRoute,
+    agentsRoute,
   ]),
 ]);
 

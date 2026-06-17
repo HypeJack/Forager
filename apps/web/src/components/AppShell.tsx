@@ -31,8 +31,7 @@ export function AppShell() {
         {/* Nav */}
         <nav className="flex-1 px-3 py-4 space-y-1">
           <Link
-            to="/org/$slug"
-            params={{ slug: slug || '' }}
+            to="/"
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-white/5 hover:text-white [&.active]:bg-white/8 [&.active]:text-white"
             activeProps={{ className: "active bg-white/8 text-white" }}
             id="nav-profile"
@@ -46,8 +45,7 @@ export function AppShell() {
           </Link>
 
           <Link
-            to="/org/$slug/vault"
-            params={{ slug: slug || '' }}
+            to="/vault"
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-white/5 hover:text-white [&.active]:bg-white/8 [&.active]:text-white"
             activeProps={{ className: "active bg-white/8 text-white" }}
             id="nav-vault"
@@ -60,8 +58,7 @@ export function AppShell() {
           </Link>
 
           <Link
-            to="/org/$slug/opportunities"
-            params={{ slug: slug || '' }}
+            to="/opportunities"
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-white/5 hover:text-white [&.active]:bg-white/8 [&.active]:text-white"
             activeProps={{ className: "active bg-white/8 text-white" }}
             id="nav-opportunities"
@@ -74,8 +71,7 @@ export function AppShell() {
           </Link>
 
           <Link
-            to="/org/$slug/pipeline"
-            params={{ slug: slug || '' }}
+            to="/pipeline"
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-white/5 hover:text-white [&.active]:bg-white/8 [&.active]:text-white"
             activeProps={{ className: "active bg-white/8 text-white" }}
             id="nav-pipeline"
@@ -88,8 +84,7 @@ export function AppShell() {
           </Link>
 
           <Link
-            to="/org/$slug/agents"
-            params={{ slug: slug || '' }}
+            to="/agents"
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-white/5 hover:text-white [&.active]:bg-white/8 [&.active]:text-white"
             activeProps={{ className: "active bg-white/8 text-white" }}
             id="nav-agents"

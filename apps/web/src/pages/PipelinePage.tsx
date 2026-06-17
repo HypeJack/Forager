@@ -14,26 +14,20 @@ const PIPELINE_COLUMNS: { id: string; statuses: GrantStatus[]; label: string; co
 ];
 
 export function PipelinePage() {
-  const { slug } = useParams({ strict: false }) as { slug: string };
+  
   const [grants, setGrants] = useState<GrantOpportunity[]>([]);
   const [matches, setMatches] = useState<GrantMatch[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
-      // 1. Resolve tenant_id from slug
-      const { data: tenant } = await supabase.from("tenants").select("id").eq("slug", slug).single();
-      if (!tenant) return;
-
       const { data: grantsData } = await supabase
         .from("grant_opportunities")
-        .select("*")
-        .eq("tenant_id", tenant.id);
+        .select("*");
 
       const { data: matchesData } = await supabase
         .from("grant_matches")
-        .select("*")
-        .eq("tenant_id", tenant.id);
+        .select("*");
 
       if (grantsData) setGrants(grantsData as GrantOpportunity[]);
       if (matchesData) setMatches(matchesData as GrantMatch[]);
@@ -51,7 +45,7 @@ export function PipelinePage() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [slug]);
+  }, []);
 
   async function handleDragEnd(result: DropResult) {
     if (!result.destination) return;

@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useParams } from '@tanstack/react-router';
 import { supabase } from '@/lib/supabase';
 
 interface ThemeConfig {
@@ -14,17 +13,14 @@ interface ThemeConfig {
 const ThemeContext = createContext<ThemeConfig | null>(null);
 
 export const TenantThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { slug } = useParams({ strict: false }) as { slug: string };
   const [theme, setTheme] = useState<ThemeConfig | null>(null);
 
   useEffect(() => {
     async function loadTenantTheme() {
-      if (!slug) return;
-      
+      // RLS ensures this only returns the user's tenant
       const { data: tenant } = await supabase
         .from('tenants')
         .select('settings')
-        .eq('slug', slug)
         .single();
 
       if (tenant?.settings?.theme) {
@@ -34,7 +30,7 @@ export const TenantThemeProvider: React.FC<{ children: React.ReactNode }> = ({ c
       }
     }
     loadTenantTheme();
-  }, [slug]);
+  }, []);
 
   useEffect(() => {
     if (!theme) return;

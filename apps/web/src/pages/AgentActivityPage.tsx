@@ -4,19 +4,15 @@ import { supabase } from "@/lib/supabase";
 import type { AgentRun } from "@forager/shared";
 
 export function AgentActivityPage() {
-  const { slug } = useParams({ strict: false }) as { slug: string };
+  
   const [runs, setRuns] = useState<AgentRun[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
-      const { data: tenant } = await supabase.from("tenants").select("id").eq("slug", slug).single();
-      if (!tenant) return;
-
       const { data } = await supabase
         .from("agent_runs")
         .select("*")
-        .eq("tenant_id", tenant.id)
         .order("created_at", { ascending: false });
 
       if (data) setRuns(data as AgentRun[]);
@@ -34,7 +30,7 @@ export function AgentActivityPage() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [slug]);
+  }, []);
 
   if (loading) {
      return <div className="p-8 flex justify-center"><div className="w-6 h-6 border-2 border-brand-primary border-t-transparent rounded-full animate-spin" /></div>;
