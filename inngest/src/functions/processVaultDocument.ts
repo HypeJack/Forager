@@ -121,9 +121,14 @@ export const processVaultDocument = inngest.createFunction(
         text = ""; // Empty text will trigger the failure flow below
       }
 
-      return text.trim();
+      // Strip null bytes and non-whitespace control characters that Postgres rejects
+      // \x00-\x08: Null through Backspace
+      // \x0B-\x0C: Vertical Tab, Form Feed
+      // \x0E-\x1F: Shift Out through Information Separator One
+      // \x7F: Delete
+      const sanitized = text.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "");
+      return sanitized.trim();
     });
-
     // Handle extraction failures without retrying forever
     if (!rawText) {
       await step.run("mark-failed", async () => {
