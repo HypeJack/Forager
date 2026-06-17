@@ -40,9 +40,25 @@ export function VaultPage() {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [tenantId, setTenantId] = useState<string | null>(null);
+
   // Load documents from Supabase
   useEffect(() => {
-    loadDocuments();
+    async function init() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const { data } = await supabase
+          .from("users")
+          .select("tenant_id")
+          .eq("id", session.user.id)
+          .single();
+        if (data) {
+          setTenantId(data.tenant_id);
+        }
+      }
+      loadDocuments();
+    }
+    init();
   }, []);
 
   async function loadDocuments() {
@@ -63,9 +79,15 @@ export function VaultPage() {
 
     setUploading(true);
 
+    if (!tenantId) {
+      console.error("Tenant ID not loaded yet.");
+      setUploading(false);
+      return;
+    }
+
     for (const file of Array.from(files)) {
       // 1. Upload to Supabase Storage
-      const filePath = `vault/${crypto.randomUUID()}/${file.name}`;
+      const filePath = `${tenantId}/vault/${crypto.randomUUID()}/${file.name}`;
       const { error: storageError } = await supabase.storage
         .from("vault-documents")
         .upload(filePath, file);
@@ -78,6 +100,7 @@ export function VaultPage() {
       // 2. Insert document record — status starts as "processing"
       // The Inngest worker will pick it up and process it
       const { data: dbData, error: dbError } = await supabase.from("vault_documents").insert({
+        tenant_id: tenantId,
         title: file.name.replace(/\.[^.]+$/, ""),
         file_path: filePath,
         file_type: file.type || "application/octet-stream",
