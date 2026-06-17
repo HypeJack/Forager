@@ -6,10 +6,9 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('vault-documents', 'vault-documents', false)
 ON CONFLICT (id) DO NOTHING;
 
--- 2. Enable RLS on storage.objects (usually enabled by default, but safe to assert)
-ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
 
 -- 3. Policy: Allow users to upload (INSERT) files to their own tenant folder
+DROP POLICY IF EXISTS "Tenant isolation for vault uploads" ON storage.objects;
 CREATE POLICY "Tenant isolation for vault uploads"
   ON storage.objects FOR INSERT
   WITH CHECK (
@@ -20,6 +19,7 @@ CREATE POLICY "Tenant isolation for vault uploads"
   );
 
 -- 4. Policy: Allow users to read/download (SELECT) files in their own tenant folder
+DROP POLICY IF EXISTS "Tenant isolation for vault reads" ON storage.objects;
 CREATE POLICY "Tenant isolation for vault reads"
   ON storage.objects FOR SELECT
   USING (
