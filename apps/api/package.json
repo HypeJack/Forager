@@ -13,6 +13,7 @@
     "@supabase/supabase-js": "^2.49.0",
     "cheerio": "1.0.0-rc.12",
     "inngest": "^3.30.0",
+    "mammoth": "^1.12.0",
     "openai": "^4.76.0",
     "pdf-parse": "1.1.1"
   },
@@ -22,6 +23,6 @@
     "typescript": "^5.7.0"
   },
   "scripts": {
-    "build": "cd ../.. && turbo run build --filter=@forager/api^... && cd apps/api && esbuild src/inngest.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/inngest.js --external:inngest --external:openai --external:@anthropic-ai/sdk --external:@google/genai --external:@supabase/supabase-js --external:cheerio --external:pdf-parse"
+    "build": "cd ../.. && turbo run build --filter=@forager/api^... && cd apps/api && esbuild src/inngest.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/inngest.js --external:inngest --external:openai --external:@anthropic-ai/sdk --external:@google/genai --external:@supabase/supabase-js --external:cheerio --external:pdf-parse --external:mammoth"
   }
 }

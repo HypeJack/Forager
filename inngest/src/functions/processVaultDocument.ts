@@ -93,8 +93,8 @@ export const processVaultDocument = inngest.createFunction(
       return data;
     });
 
-    // Step 2: Download and parse document content
-    const rawText = await step.run("parse-document", async () => {
+    // Step 2: Extract and store initial chunks (without embeddings)
+    const chunkCount = await step.run("extract-and-store-chunks", async () => {
       const { data, error } = await supabase.storage
         .from("vault-documents")
         .download(doc.file_path);
@@ -102,10 +102,10 @@ export const processVaultDocument = inngest.createFunction(
       if (error || !data) throw new Error(`Failed to download: ${doc.file_path}`);
 
       let text = "";
-      const isPdf = doc.file_type === "application/pdf" || doc.file_path.toLowerCase().endsWith(".pdf");
+      const pathLower = doc.file_path.toLowerCase();
 
       try {
-        if (isPdf) {
+        if (pathLower.endsWith(".pdf") || doc.file_type === "application/pdf") {
           const arrayBuffer = await data.arrayBuffer();
           const buffer = Buffer.from(arrayBuffer);
           
@@ -113,8 +113,23 @@ export const processVaultDocument = inngest.createFunction(
           const pdfParse = (await import("pdf-parse")).default;
           const parsed = await pdfParse(buffer);
           text = parsed.text || "";
-        } else {
+        } else if (pathLower.endsWith(".docx") || doc.file_type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+          const arrayBuffer = await data.arrayBuffer();
+          const buffer = Buffer.from(arrayBuffer);
+          
+          // Import mammoth dynamically
+          const mammoth = (await import("mammoth")).default;
+          const parsed = await mammoth.extractRawText({ buffer });
+          text = parsed.value || "";
+        } else if (pathLower.endsWith(".txt") || pathLower.endsWith(".md") || doc.file_type.startsWith("text/")) {
           text = await data.text();
+        } else {
+          throw new Error(`Unsupported file type: ${doc.file_type}`);
+        }
+
+        // Binary Guard: Check if the text is actually binary garbage
+        if (text.includes('\x00') || text.includes('PK\x03\x04')) {
+          throw new Error("Binary/unparseable content detected");
         }
       } catch (err) {
         console.error("Parse error:", err);
@@ -122,82 +137,100 @@ export const processVaultDocument = inngest.createFunction(
       }
 
       // Strip null bytes and non-whitespace control characters that Postgres rejects
-      // \x00-\x08: Null through Backspace
-      // \x0B-\x0C: Vertical Tab, Form Feed
-      // \x0E-\x1F: Shift Out through Information Separator One
-      // \x7F: Delete
       const sanitized = text.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "");
-      return sanitized.trim();
+      const rawText = sanitized.trim();
+      
+      if (!rawText) return 0; // Trigger mark-failed
+
+      // Chunk the text
+      const chunks = chunkText(rawText);
+
+      // Store initial chunks without embeddings
+      const rows = chunks.map((content, i) => ({
+        document_id: documentId,
+        tenant_id: tenantId,
+        content,
+        chunk_index: i,
+        // embedding is explicitly omitted (NULL)
+      }));
+
+      // Insert in manageable batches for DB health (e.g., 500 rows at a time)
+      const INSERT_BATCH_SIZE = 500;
+      for (let i = 0; i < rows.length; i += INSERT_BATCH_SIZE) {
+        const batch = rows.slice(i, i + INSERT_BATCH_SIZE);
+        const { error: insertError } = await supabase.from("vault_chunks").insert(batch);
+        if (insertError) throw new Error(`Failed to store initial chunks: ${insertError.message}`);
+      }
+
+      return chunks.length;
     });
+
     // Handle extraction failures without retrying forever
-    if (!rawText) {
+    if (chunkCount === 0) {
       await step.run("mark-failed", async () => {
         await supabase.from("vault_documents").update({ status: "failed" }).eq("id", documentId);
       });
       return { documentId, status: "failed", reason: "Text extraction failed or empty" };
     }
 
-    // Step 3: Chunk the text
-    const chunks = await step.run("chunk-text", async () => {
-      return chunkText(rawText);
-    });
+    // Step 3: Embed and update chunks in batches
+    const BATCH_SIZE = 50; // Smaller batch keeps state low and executes quickly
+    const numBatches = Math.ceil(chunkCount / BATCH_SIZE);
 
-    // Step 4: Generate embeddings with OpenAI
-    const embeddings = await step.run("generate-embeddings", async () => {
-      if (!process.env.OPENAI_API_KEY) {
-        throw new Error("Missing OPENAI_API_KEY environment variable");
-      }
-      
-      const { OpenAI } = await import("openai");
-      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-      
-      // Batch process chunks to respect API limits (100 at a time)
-      const results: number[][] = [];
-      const BATCH_SIZE = 100;
-      
-      for (let i = 0; i < chunks.length; i += BATCH_SIZE) {
-        const batch = chunks.slice(i, i + BATCH_SIZE);
+    for (let batchIndex = 0; batchIndex < numBatches; batchIndex++) {
+      await step.run(`embed-batch-${batchIndex}`, async () => {
+        if (!process.env.OPENAI_API_KEY) {
+          throw new Error("Missing OPENAI_API_KEY environment variable");
+        }
+
+        const offset = batchIndex * BATCH_SIZE;
+        // Fetch chunks for this batch
+        const { data: batchChunks, error: fetchError } = await supabase
+          .from("vault_chunks")
+          .select("id, content")
+          .eq("document_id", documentId)
+          .order("chunk_index", { ascending: true })
+          .range(offset, offset + BATCH_SIZE - 1);
+
+        if (fetchError || !batchChunks || batchChunks.length === 0) {
+          throw new Error(`Failed to fetch chunks for batch ${batchIndex}`);
+        }
+
+        const { OpenAI } = await import("openai");
+        const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
         const response = await openai.embeddings.create({
           model: "text-embedding-3-small",
-          input: batch,
+          input: batchChunks.map((c) => c.content),
           dimensions: 1536,
         });
-        
+
         // Ensure order matches the input batch
         const batchEmbeddings = response.data
           .sort((a, b) => a.index - b.index)
           .map((item) => item.embedding);
-          
-        results.push(...batchEmbeddings);
-      }
-      
-      return results;
-    });
 
-    // Step 5: Store chunks in vault_chunks with embeddings
-    await step.run("store-chunks", async () => {
-      const rows = chunks.map((content, i) => ({
-        document_id: documentId,
-        tenant_id: tenantId,
-        content,
-        chunk_index: i,
-        embedding: JSON.stringify(embeddings[i]),
-      }));
+        // Update each chunk with its embedding concurrently
+        await Promise.all(
+          batchChunks.map((chunk, j) =>
+            supabase
+              .from("vault_chunks")
+              .update({ embedding: JSON.stringify(batchEmbeddings[j]) })
+              .eq("id", chunk.id)
+          )
+        );
 
-      const { error } = await supabase
-        .from("vault_chunks")
-        .insert(rows);
+        return { processed: batchChunks.length };
+      });
+    }
 
-      if (error) throw new Error(`Failed to store chunks: ${error.message}`);
-    });
-
-    // Step 6: Update document status
+    // Step 4: Update document status
     await step.run("update-status", async () => {
       const { error } = await supabase
         .from("vault_documents")
         .update({
           status: "indexed",
-          chunk_count: chunks.length,
+          chunk_count: chunkCount,
         })
         .eq("id", documentId);
 
@@ -206,7 +239,7 @@ export const processVaultDocument = inngest.createFunction(
 
     return {
       documentId,
-      chunksCreated: chunks.length,
+      chunksCreated: chunkCount,
       status: "indexed",
     };
   }

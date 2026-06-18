@@ -172,7 +172,7 @@ export function VaultPage() {
             ref={fileInputRef}
             type="file"
             multiple
-            accept=".pdf,.doc,.docx,.txt,.md"
+            accept=".pdf,.docx,.txt,.md"
             onChange={handleUpload}
             className="hidden"
             id="vault-file-input"

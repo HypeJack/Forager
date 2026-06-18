@@ -22,6 +22,7 @@
     "@forager/shared": "workspace:*",
     "@supabase/supabase-js": "^2.49.0",
     "inngest": "^3.30.0",
+    "mammoth": "^1.12.0",
     "openai": "^4.76.0",
     "pdf-parse": "1.1.1"
   },
