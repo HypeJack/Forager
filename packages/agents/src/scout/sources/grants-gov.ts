@@ -1,4 +1,4 @@
-import { GrantOpportunity } from "../types";
+import type { GrantOpportunity } from "@forager/shared";
 
 const GRANTS_GOV_API_URL = "https://api.grants.gov/v1/api/search2";
 const GRANTS_GOV_DETAIL_URL = "https://api.grants.gov/v1/api/fetchOpportunity";
