@@ -53,12 +53,20 @@ export function OpportunitiesPage() {
       .single();
 
     if (userData) {
-      const { error } = await supabase.rpc("trigger_scout_run", {
-        p_tenant_id: userData.tenant_id
+      const { data, error } = await supabase.functions.invoke("emit-inngest-event", {
+        body: {
+          name: "scout/run.requested",
+          data: {
+            tenantId: userData.tenant_id,
+            triggeredBy: user.id
+          }
+        }
       });
       
-      if (error) {
-         alert("Failed to start Scout run. See console for details.");
+      if (error || (data && data.error)) {
+         const errMsg = error?.message || data?.error || "Unknown error";
+         console.error("Failed to start Scout run:", errMsg);
+         alert(`Failed to start Scout run: ${errMsg}`);
       } else {
          alert("Scout agent run queued! Opportunities will populate shortly.");
       }
