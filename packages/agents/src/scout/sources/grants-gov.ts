@@ -1,4 +1,4 @@
-import type { GrantOpportunity } from "@forager/shared";
+import { type GrantOpportunity, htmlToPlainText } from "@forager/shared";
 
 const GRANTS_GOV_API_URL = "https://api.grants.gov/v1/api/search2";
 const GRANTS_GOV_DETAIL_URL = "https://api.grants.gov/v1/api/fetchOpportunity";
@@ -81,16 +81,21 @@ export async function searchGrantsGov(focusAreas: string[]): Promise<Partial<Gra
         // Fallback to thin values, continue to next opp
       }
 
+      const plainDescription = htmlToPlainText(description);
+
       enrichedOpps.push({
         title: hit.title,
         funder: hit.agency,
-        description: description,
+        description: plainDescription,
         amount_min: amount_min,
         amount_max: amount_max,
         deadline: hit.closeDate && !isNaN(new Date(hit.closeDate).getTime()) ? new Date(hit.closeDate).toISOString() : null,
         url: hit.id ? `https://www.grants.gov/search-results-detail/${hit.id}` : "https://www.grants.gov",
         status: "discovered",
-        tags: ["federal", ...(hit.cfdaList ? hit.cfdaList.map((c: string) => `CFDA ${c}`) : [])]
+        tags: ["federal", ...(hit.cfdaList ? hit.cfdaList.map((c: string) => `CFDA ${c}`) : [])],
+        metadata: {
+          descriptionHtml: description
+        }
       });
     }
     

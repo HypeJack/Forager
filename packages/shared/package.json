@@ -18,8 +18,12 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "typescript": "^5.7.0",
-    "tsup": "^8.0.0"
+    "@types/html-to-text": "^9.0.4",
+    "tsup": "^8.0.0",
+    "typescript": "^5.7.0"
   },
-  "module": "./dist/index.js"
+  "module": "./dist/index.js",
+  "dependencies": {
+    "html-to-text": "^10.0.0"
+  }
 }
