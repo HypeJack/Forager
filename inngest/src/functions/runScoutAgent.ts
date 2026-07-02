@@ -145,8 +145,9 @@ Return JSON: { "score": number (0-100), "rationale": "string", "evidence": [{ "s
               amount_max: opp.amount_max,
               deadline: opp.deadline,
               url: opp.url,
-              status: "matched",
-              tags: opp.tags || []
+              status: opp.status || "matched",
+              tags: opp.tags || [],
+              metadata: opp.metadata || {}
             })
             .select("id")
             .single();
