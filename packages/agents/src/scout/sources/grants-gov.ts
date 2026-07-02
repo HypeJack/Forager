@@ -46,6 +46,7 @@ export async function searchGrantsGov(focusAreas: string[]): Promise<Partial<Gra
       let description = "Description not provided.";
       let amount_min = null;
       let amount_max = null;
+      let docType: string | null = null;
       
       try {
         const detailRes = await fetch(GRANTS_GOV_DETAIL_URL, {
@@ -57,6 +58,7 @@ export async function searchGrantsGov(focusAreas: string[]): Promise<Partial<Gra
         if (detailRes.ok) {
           const detailJson = await detailRes.json();
           const details = detailJson?.data;
+          docType = details?.docType ?? null;
           
           if (details?.synopsis) {
             description = details.synopsis.synopsisDesc || description;
@@ -94,7 +96,9 @@ export async function searchGrantsGov(focusAreas: string[]): Promise<Partial<Gra
         status: "discovered",
         tags: ["federal", ...(hit.cfdaList ? hit.cfdaList.map((c: string) => `CFDA ${c}`) : [])],
         metadata: {
-          descriptionHtml: description
+          descriptionHtml: description,
+          oppStatus: hit.oppStatus,
+          docType: docType
         }
       });
     }

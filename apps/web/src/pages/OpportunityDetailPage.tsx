@@ -85,7 +85,7 @@ export function OpportunityDetailPage() {
             <div className="flex flex-wrap items-center gap-6 text-sm text-neutral-600 mb-6 bg-neutral-50 p-4 rounded-lg border border-neutral-100">
                {opp.amount_max && <div><strong>Max Award:</strong> ${opp.amount_max.toLocaleString()}</div>}
                {opp.deadline && <div><strong>Deadline:</strong> {new Date(opp.deadline).toLocaleDateString()}</div>}
-               <a href={opp.url} target="_blank" rel="noreferrer" className="text-semantic-info hover:underline font-medium">View original source &nearr;</a>
+               <a href={opp.url} target="_blank" rel="noreferrer" className="text-semantic-info hover:underline font-medium">View original source ↗</a>
             </div>
 
             <div className="prose prose-sm text-neutral-800 max-w-none mb-8 leading-relaxed">
