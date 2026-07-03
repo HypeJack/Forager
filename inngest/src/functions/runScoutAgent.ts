@@ -65,75 +65,52 @@ export const runScoutAgent = inngest.createFunction(
       
       for (const opp of rawOpportunities) {
         await step.run(`process-opp-${processedCount++}`, async () => {
-          // A. Eligibility Analysis (claude-sonnet-4-6)
-          const eligibilitySystem = `You are a grant eligibility analyst for a ${orgProfile.org_type}.
-Determine if this organization is strictly eligible for this grant. Return JSON: { "eligible": boolean, "rationale": "string" }`;
-          
-          const eligibilityPrompt = `Org Profile:\n${JSON.stringify(orgProfile, null, 2)}\n\nOpportunity:\n${JSON.stringify(opp, null, 2)}`;
-          
-          const eligibilityRes = await callLLM({
-            task: "scout_eligibility_analysis",
-            system: eligibilitySystem,
-            prompt: eligibilityPrompt
+          // A. Relevance Scoring (claude-sonnet-4-6)
+          const scoringSystem = `You are an expert grant strategist evaluating opportunities for a ${orgProfile.org_type}.
+Score the relevance of this grant opportunity to this organization on a continuous scale of 0-100.
+Do NOT use a binary approach (0 or 100). Provide a nuanced score based on the following weighted rubric:
+- Mission/Focus Alignment (40%): Does the grant's purpose closely match the organization's mission and focus areas?
+- Applicant Eligibility & Scale Fit (40%): Is the grant appropriate for a ${orgProfile.org_type} with a budget of roughly $${orgProfile.annual_budget || "unknown"}? (e.g., A $50M university research grant or DoD engineering grant should score very low for a small community nonprofit, even if the topic aligns).
+- Funding/Geographic/Deadline Feasibility (20%): Is the funding amount appropriate? Are there geographic restrictions?
+
+Return JSON in this exact format: { "score": number, "rationale": "string" }
+The rationale MUST be 1-2 sentences maximum (under 240 chars) grounding the specific fit/misfit for THIS grant and THIS org. Do not use generic boilerplate.`;
+
+          const scoringPrompt = `Org Profile:\n${JSON.stringify(orgProfile, null, 2)}\n\nOpportunity:\n${JSON.stringify(opp, null, 2)}`;
+
+          const scoringRes = await callLLM({
+            task: "scout_eligibility_analysis", // Using this task maps to claude-sonnet-4-6
+            system: scoringSystem,
+            prompt: scoringPrompt
           });
 
           // Parse JSON safely
-          let isEligible = false;
-          let eligibilityRationale = "";
+          let score: number | null = null;
+          let rationale: string | null = null;
+          
           try {
-             // Basic JSON extraction
-             const jsonMatch = eligibilityRes.text.match(/\{[\s\S]*\}/);
+             const jsonMatch = scoringRes.text.match(/\{[\s\S]*\}/);
              if (jsonMatch) {
                const parsed = JSON.parse(jsonMatch[0]);
-               isEligible = !!parsed.eligible;
-               eligibilityRationale = parsed.rationale || "No rationale provided.";
+               if (typeof parsed.score === 'number' && !isNaN(parsed.score)) {
+                 score = Math.max(0, Math.min(100, parsed.score));
+               }
+               rationale = parsed.rationale || "No rationale provided.";
              }
           } catch (e) {
-             console.error("Failed to parse eligibility JSON", e);
+             console.error("Failed to parse scoring JSON", e);
+             // Falls through to insert with nulls
           }
 
-          if (!isEligible) return; // Skip if not eligible
+          /* TODO: Bypass vault-RAG match scoring for now.
+             This step is scaffolding for the deferred "fix vault-RAG retrieval" wave.
+             We skip fetching vault chunks and running scout_match_scoring to avoid 
+             double-running LLMs and double-writing. 
+             We STILL insert a grant_matches record below to prevent the PipelinePage 
+             from breaking, since it depends on grant_matches.score.
+          */
 
-          // B. Embed Opportunity Description to find relevant Vault Context
-          // (Mocking this step due to no direct OpenAI import here, but production uses embeddings)
-          // For MVP, we will just fetch the top 5 chunks indiscriminately or assume it's pre-loaded
-          const { data: vaultChunks } = await supabase
-            .from("vault_chunks")
-            .select("content, document_id")
-            .eq("tenant_id", tenantId)
-            .limit(3);
-
-          const vaultContext = vaultChunks ? vaultChunks.map(c => c.content).join("\n\n") : "No vault context available.";
-
-          // C. Match Scoring (claude-sonnet-4-6)
-          const matchSystem = `You are an expert grant strategist. Score the match between the organization's capabilities (from the Vault Context) and the grant opportunity.
-Return JSON: { "score": number (0-100), "rationale": "string", "evidence": [{ "source": "string", "excerpt": "string", "relevance": "string" }] }`;
-          
-          const matchPrompt = `Org Profile:\n${JSON.stringify(orgProfile, null, 2)}\n\nVault Context:\n${vaultContext}\n\nOpportunity:\n${JSON.stringify(opp, null, 2)}`;
-          
-          const matchRes = await callLLM({
-            task: "scout_match_scoring",
-            system: matchSystem,
-            prompt: matchPrompt
-          });
-
-          let score = 50;
-          let rationale = "";
-          let evidence: any[] = [];
-          
-          try {
-            const jsonMatch = matchRes.text.match(/\{[\s\S]*\}/);
-            if (jsonMatch) {
-              const parsed = JSON.parse(jsonMatch[0]);
-              score = parsed.score || 50;
-              rationale = parsed.rationale || "No rationale provided.";
-              evidence = parsed.evidence || [];
-            }
-          } catch (e) {
-            console.error("Failed to parse match JSON", e);
-          }
-
-          // D. Persist to DB
+          // D. Persist to DB (NO early return on failure)
           const { data: oppRecord, error: oppErr } = await supabase
             .from("grant_opportunities")
             .insert({
@@ -145,30 +122,35 @@ Return JSON: { "score": number (0-100), "rationale": "string", "evidence": [{ "s
               amount_max: opp.amount_max,
               deadline: opp.deadline,
               url: opp.url,
-              status: opp.status || "matched",
+              status: opp.status || "discovered",
               tags: opp.tags || [],
-              metadata: opp.metadata || {}
+              metadata: opp.metadata || {},
+              relevance_score: score,
+              relevance_rationale: rationale,
+              scoring_model: scoringRes.model || "claude-sonnet-4-6",
+              scored_at: new Date().toISOString()
             })
             .select("id")
             .single();
 
           if (oppErr || !oppRecord) {
-             console.error("Failed to insert opp", oppErr);
-             return;
+             console.error("Failed to insert opp into grant_opportunities:", oppErr);
+             return; // Cannot insert match if opp insert failed
           }
 
+          // Insert into grant_matches to satisfy PipelinePage dependency.
           await supabase
             .from("grant_matches")
             .insert({
               tenant_id: tenantId,
               opportunity_id: oppRecord.id,
-              score,
-              rationale,
-              evidence,
+              score: score ?? 0, // grant_matches.score is NOT NULL constraint
+              rationale: rationale || "No rationale provided.",
+              evidence: [],
               status: "pending",
-              eligibility_rationale: eligibilityRationale,
-              scout_model: "claude-3-5-sonnet-20241022",
-              vault_context_used: vaultChunks
+              eligibility_rationale: rationale || "No rationale provided.",
+              scout_model: scoringRes.model || "claude-sonnet-4-6",
+              vault_context_used: null
             });
         });
       }

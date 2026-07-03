@@ -25,6 +25,7 @@ export interface LLMResponse {
     inputTokens: number;
     outputTokens: number;
   };
+  model?: string;
 }
 
 // ── Non-streaming call ─────────────────────────────────────────
@@ -48,6 +49,7 @@ export async function callLLM(request: LLMRequest): Promise<LLMResponse> {
           inputTokens: response.usage.input_tokens,
           outputTokens: response.usage.output_tokens,
         },
+        model: selection.model,
       };
     } else if (selection.provider === 'google') {
       const response = await google.models.generateContent({
@@ -65,6 +67,7 @@ export async function callLLM(request: LLMRequest): Promise<LLMResponse> {
           inputTokens: response.usageMetadata?.promptTokenCount ?? 0,
           outputTokens: response.usageMetadata?.candidatesTokenCount ?? 0,
         },
+        model: selection.model,
       };
     } else {
       throw new Error(`Unsupported non-streaming provider: ${selection.provider}`);
