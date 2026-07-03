@@ -21,8 +21,7 @@ export async function searchGrantsGov(focusAreas: string[]): Promise<Partial<Gra
         oppStatuses: "forecasted|posted",
         // Cap at 25 hits to control detail-fetch volume (this limits the records we process and fetch detail for)
         rows: 25, 
-        startRecordNum: 0,
-        sortBy: "openDate|desc"
+        startRecordNum: 0
       })
     });
 
