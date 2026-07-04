@@ -118,14 +118,14 @@ export function OpportunityDetailPage() {
                   <p className="text-neutral-800 leading-relaxed mb-6">{opp.relevance_rationale}</p>
                 )}
                 
-                {(match as any).eligibility_rationale && (
+                {match && (match as any).eligibility_rationale && (
                   <div className="mb-6 p-5 bg-neutral-50 rounded-xl border border-neutral-200">
                     <h3 className="text-xs font-bold text-neutral-900 mb-2 uppercase tracking-wider">Eligibility Check</h3>
                     <p className="text-sm text-neutral-700 leading-relaxed">{(match as any).eligibility_rationale}</p>
                   </div>
                 )}
                 
-                {match.evidence && match.evidence.length > 0 && (
+                {match && match.evidence && match.evidence.length > 0 && (
                   <div>
                     <h3 className="text-xs font-bold text-neutral-900 mb-3 uppercase tracking-wider">Evidence from Vault</h3>
                     <div className="space-y-3">
