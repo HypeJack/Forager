@@ -23,7 +23,8 @@ export function PipelinePage() {
     async function loadData() {
       const { data: grantsData } = await supabase
         .from("grant_opportunities")
-        .select("*");
+        .select("*")
+        .order("relevance_score", { ascending: false, nullsFirst: false });
 
       const { data: matchesData } = await supabase
         .from("grant_matches")
@@ -110,7 +111,6 @@ export function PipelinePage() {
                       className={`flex-1 p-3 overflow-y-auto min-h-[200px] transition-colors ${snapshot.isDraggingOver ? 'bg-brand-primary/5' : ''}`}
                     >
                       {columnGrants.map((grant, index) => {
-                        const match = matches.find(m => m.opportunity_id === grant.id);
                         return (
                           <Draggable key={grant.id} draggableId={grant.id} index={index}>
                             {(provided, snapshot) => (
@@ -121,15 +121,21 @@ export function PipelinePage() {
                                 className={`mb-3 bg-white p-4 rounded-xl border transition-shadow ${snapshot.isDragging ? 'shadow-lg border-brand-primary/50' : 'border-neutral-200 shadow-sm hover:border-neutral-300'}`}
                               >
                                 <p className="text-xs font-semibold text-brand-primary mb-1 uppercase tracking-wider line-clamp-1">{grant.funder}</p>
-                                <h4 className="text-sm font-bold text-neutral-900 leading-snug mb-3 line-clamp-2">{grant.title}</h4>
+                                <h4 className="text-sm font-bold text-neutral-900 leading-snug mb-2 line-clamp-2">{grant.title}</h4>
                                 
-                                {match && (
-                                  <div className="flex items-center gap-2 mb-3">
+                                {grant.relevance_score != null && (
+                                  <div className="flex items-center gap-2 mb-2">
                                     <div className="flex-1 h-1.5 bg-neutral-100 rounded-full overflow-hidden">
-                                      <div className="h-full bg-brand-primary" style={{ width: `${match.score}%` }} />
+                                      <div className="h-full bg-brand-primary" style={{ width: `${grant.relevance_score}%` }} />
                                     </div>
-                                    <span className="text-xs font-bold text-brand-primary">{match.score}</span>
+                                    <span className="text-xs font-bold text-brand-primary">{grant.relevance_score}</span>
                                   </div>
+                                )}
+
+                                {grant.relevance_rationale && (
+                                  <p className="text-xs text-neutral-600 mb-3 line-clamp-2 italic">
+                                    "{grant.relevance_rationale}"
+                                  </p>
                                 )}
                                 
                                 <div className="flex justify-between items-center text-xs text-neutral-500">

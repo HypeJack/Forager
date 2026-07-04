@@ -23,7 +23,7 @@ export function OpportunitiesPage() {
     let query = supabase
       .from("grant_opportunities")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("relevance_score", { ascending: false, nullsFirst: false });
 
     // Handle tab filtering
     if (tab === "watchlist") {
@@ -176,6 +176,19 @@ export function OpportunitiesPage() {
                     </button>
                   </div>
                 </div>
+                
+                {opp.relevance_score != null && (
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-8 rounded-full bg-brand-primary text-white flex items-center justify-center font-bold text-sm shadow-sm flex-shrink-0">
+                      {opp.relevance_score}
+                    </div>
+                    {opp.relevance_rationale && (
+                      <p className="text-sm text-neutral-600 italic line-clamp-2">
+                        "{opp.relevance_rationale}"
+                      </p>
+                    )}
+                  </div>
+                )}
                 
                 <p className="text-sm text-neutral-600 line-clamp-2 mb-4">{opp.description}</p>
                 

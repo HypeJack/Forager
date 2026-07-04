@@ -9,51 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as _rootDRouteImport } from './routes/__root.d'
 
-const _rootDRoute = _rootDRouteImport.update({
-  id: '/__root/d',
-  path: '/d',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-export interface FileRoutesByFullPath {
-  '/d': typeof _rootDRoute
-}
-export interface FileRoutesByTo {
-  '/d': typeof _rootDRoute
-}
+export interface FileRoutesByFullPath {}
+export interface FileRoutesByTo {}
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/__root/d': typeof _rootDRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/d'
+  fullPaths: never
   fileRoutesByTo: FileRoutesByTo
-  to: '/d'
-  id: '__root__' | '/__root/d'
+  to: never
+  id: '__root__'
   fileRoutesById: FileRoutesById
 }
-export interface RootRouteChildren {
-  _rootDRoute: typeof _rootDRoute
-}
+export interface RootRouteChildren {}
 
 declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/__root/d': {
-      id: '/__root/d'
-      path: '/d'
-      fullPath: '/d'
-      preLoaderRoute: typeof _rootDRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-  }
+  interface FileRoutesByPath {}
 }
 
-const rootRouteChildren: RootRouteChildren = {
-  _rootDRoute: _rootDRoute,
-}
+const rootRouteChildren: RootRouteChildren = {}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()

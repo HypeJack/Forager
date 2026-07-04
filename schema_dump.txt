@@ -1,0 +1,94 @@
+CREATE TABLE tenants (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+CREATE TABLE users (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+CREATE TABLE grant_opportunities (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  funder TEXT NOT NULL,
+  description TEXT NOT NULL DEFAULT '',
+  amount_min NUMERIC,
+  amount_max NUMERIC,
+  deadline TIMESTAMPTZ,
+  url TEXT NOT NULL DEFAULT '',
+  status TEXT NOT NULL DEFAULT 'discovered' CHECK (
+  tags TEXT[] NOT NULL DEFAULT '{}',
+  metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+CREATE TABLE grant_matches (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  opportunity_id UUID NOT NULL REFERENCES grant_opportunities(id) ON DELETE CASCADE,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'rejected')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+CREATE TABLE agent_runs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  status TEXT NOT NULL DEFAULT 'queued' CHECK (
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+ALTER TABLE tenants ENABLE ROW LEVEL SECURITY;
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE grant_opportunities ENABLE ROW LEVEL SECURITY;
+ALTER TABLE grant_matches ENABLE ROW LEVEL SECURITY;
+ALTER TABLE agent_runs ENABLE ROW LEVEL SECURITY;
+CREATE TABLE org_profiles (
+  tenant_id UUID PRIMARY KEY REFERENCES tenants(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+ALTER TABLE org_profiles ENABLE ROW LEVEL SECURITY;
+CREATE TABLE vault_documents (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'processing' CHECK (
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  deleted_at TIMESTAMPTZ  -- Soft delete: NULL = active, non-NULL = deleted
+CREATE TABLE vault_chunks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  deleted_at TIMESTAMPTZ  -- Soft delete: NULL = active, non-NULL = deleted
+ALTER TABLE vault_documents ENABLE ROW LEVEL SECURITY;
+ALTER TABLE vault_chunks ENABLE ROW LEVEL SECURITY;
+  id UUID,
+ALTER TABLE grant_matches
+ALTER TABLE vault_chunks
+CREATE TABLE grant_applications (
+  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  opportunity_id    UUID NOT NULL REFERENCES grant_opportunities(id) ON DELETE CASCADE,
+  outline           JSONB NOT NULL DEFAULT '[]',
+  match_prior_voice BOOLEAN NOT NULL DEFAULT true,
+  current_section   TEXT,
+  status            TEXT NOT NULL DEFAULT 'pre_draft'
+  submitted_via     TEXT
+  submitted_at      TIMESTAMPTZ,
+  total_tokens_used INTEGER NOT NULL DEFAULT 0,
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
+  deleted_at        TIMESTAMPTZ -- Soft delete
+ALTER TABLE grant_applications ENABLE ROW LEVEL SECURITY;
+ALTER TABLE grant_opportunities
+ALTER TABLE grant_opportunities
+CREATE TABLE crm_sync_logs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  opportunity_id UUID REFERENCES grant_opportunities(id) ON DELETE SET NULL,
+  status TEXT NOT NULL DEFAULT 'success',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+ALTER TABLE crm_sync_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE tenants 
+ALTER TABLE agent_runs ADD CONSTRAINT agent_runs_agent_type_check 
+CREATE TABLE allowlisted_emails (
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+ALTER TABLE users ALTER COLUMN tenant_id DROP NOT NULL;
+ALTER TABLE agent_runs DROP CONSTRAINT agent_runs_agent_type_check;
+ALTER TABLE agent_runs ADD CONSTRAINT agent_runs_agent_type_check 

@@ -1,0 +1,181 @@
+Forecast ID: 348303
+{
+  "errorcode": 0,
+  "msg": "Webservice Succeeds",
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IkZXNXVGeUlHYUdYNU8raDFLamFPdHUyUFgrNFo1S0lMdDJpUzUrYjFheWM9Ig.qmJ7e3JsDY1mYqgVcj6efcHC2r-4AcQWySMgnKJuCDQ",
+  "data": {
+    "id": 348303,
+    "revision": 0,
+    "opportunityNumber": "TIRYOUTHFY23",
+    "opportunityTitle": "Advancing Youth Activism and Engagement FY2023",
+    "owningAgencyCode": "DOS-ALB",
+    "listed": "L",
+    "publisherUid": "PAOTR",
+    "flag2006": "N",
+    "opportunityCategory": {
+      "category": "E",
+      "description": "Earmark"
+    },
+    "agencyDetails": {
+      "code": "ALB",
+      "seed": "DOS-ALB",
+      "agencyName": "U.S. Mission to Albania",
+      "agencyCode": "DOS-ALB",
+      "topAgencyCode": "DOS"
+    },
+    "topAgencyDetails": {
+      "code": "DOS",
+      "seed": "DOS",
+      "agencyName": "Department of State",
+      "agencyCode": "DOS",
+      "topAgencyCode": "DOS"
+    },
+    "forecast": {
+      "opportunityId": 348303,
+      "version": 1,
+      "postingDate": "May 23, 2023 12:00:00 AM EDT",
+      "forecastDesc": "<p><strong style=\"color: black;\">A. PROGRAM DESCRIPTION</strong></p>\n<p><strong style=\"color: black;\"> </strong><span style=\"color: black;\">The U.S. Embassy in Tirana, Albania announces an open competition for organizations to submit applications to carry out a program to advance youth activism and engagement.&nbsp;Please follow all instructions below.</span></p>\n<p><strong>&nbsp;</strong></p>\n<p><strong style=\"color: black;\">Priority Region:&nbsp;</strong><em style=\"color: black;\">Albania</em></p>\n<p>&nbsp;</p>\n<p><strong style=\"color: black;\">Program Objectives: </strong></p>\n<p><strong>&nbsp;</strong></p>\n<p><span style=\"color: black;\">This program seeks to support youth civic engagement by cultivating and strengthening the capacities of young activists to address community issues, increase political engagement, and advance key issues impacting Albanian youth groups throughout the country through concrete actions. The program &nbsp;will foster meaningful participation of youth through volunteerism within their communities, demonstrate diversity and inclusion, enhance leadership skills, and promote greater civic participation. </span></p>\n<p>&nbsp;</p>\n<p><span style=\"color: black;\">Priority areas include:</span></p>\n<p>&nbsp;</p>\n<p><span style=\"color: black;\">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Work with youth to foster greater community activism, including addressing community issues impacting Albanian youth. W</span></p>\n<p><span style=\"color: black;\">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Conduct capacity-building programs and training to increase evidence-based advocacy and activism campaigns. </span></p>\n<p><span style=\"color: black;\">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Learn how to increase youth activism and civic participation. plan a large-scale activist event.</span></p>\n<p><span style=\"color: black;\">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Participation of youth in rural communities that represent the diversity of the country. </span></p>\n<p><strong>&nbsp;</strong></p>\n<p><span style=\"color: black;\">Themes:</span></p>\n<p><span style=\"color: black;\">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Youth Activism/Volunteerism</span></p>\n<p><span style=\"color: black;\">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>\n<p><span style=\"color: black;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Advocacy for youth initiatives</span></p>\n<p><span style=\"color: black;\">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Good Governance</span></p>\n<p><span style=\"color: black;\">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Youth Empowerment</span></p>\n<p><span style=\"color: black;\">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Leadership</span></p>",
+      "costSharing": false,
+      "estimatedFunding": "50000",
+      "agencyContactName": "Public Affairs Section, US Embassy Tirana, Albania",
+      "agencyContactPhone": "00355684036853",
+      "agencyContactEmail": "tiranapdresources@state.gov",
+      "agencyContactEmailDesc": "tiranapdresources@state.gov",
+      "agencyCode": "DOS-ALB",
+      "sendEmail": "Y",
+      "applicantEligibilityDesc": "1.\tEligible Applicants\r\n\r\n&bull;\tAlbanian not-for-profit organizations, including think tanks and civil society/non-governmental organizations that are able to respond to the NOFO, and have experience and expertise working on youth issues and youth engagement.\r\n\r\n&bull;\tU.S. organizations and individuals are not eligible for grants under the program. \r\n\r\n&bull;\tCost sharing or matching is not required and is not part of the evaluation criteria. However, the applicants are encouraged to explore the possibility of a cost-share whenever possible.",
+      "estApplicationResponseDate": "Jun 22, 2023 12:00:00 AM EDT",
+      "fiscalYear": 2023,
+      "createTimeStamp": "May 23, 2023 08:18:38 AM EDT",
+      "createdDate": "May 23, 2023 08:14:33 AM EDT",
+      "lastUpdatedDate": "May 23, 2023 08:18:38 AM EDT",
+      "agencyDetails": {
+        "code": "ALB",
+        "seed": "DOS-ALB",
+        "agencyName": "U.S. Mission to Albania",
+        "agencyCode": "DOS-ALB",
+        "topAgencyCode": "DOS"
+      },
+      "estimatedFundingFormatted": "50,000",
+      "applicantTypes": [
+        {
+          "id": "25",
+          "description": "Others (see text field entitled \"Additional Information on Eligibility\" for clarification)"
+        }
+      ],
+      "fundingInstruments": [
+        {
+          "id": "G",
+          "description": "Grant"
+        }
+      ],
+      "fundingActivityCategories": [
+        {
+          "id": "HU",
+          "description": "Humanities"
+        }
+      ],
+      "postingDateStr": "2023-05-23-00-00-00",
+      "estApplicationResponseDateStr": "2023-06-22-00-00-00",
+      "createTimeStampStr": "2023-05-23-08-18-38"
+    },
+    "synopsisAttachmentFolders": [
+      {
+        "id": 65792,
+        "opportunityId": 348303,
+        "folderType": "Full Announcement",
+        "folderName": "application package",
+        "zipLobSize": 331729,
+        "createdDate": "May 23, 2023 08:15:27 AM EDT",
+        "lastUpdatedDate": "May 23, 2023 08:18:38 AM EDT",
+        "synopsisAttachments": [
+          {
+            "id": 328795,
+            "opportunityId": 348303,
+            "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "fileName": "Notice of Funding Opportunity - Youth FY23.docx",
+            "fileDescription": "NOFO",
+            "fileLobSize": 58388,
+            "createdDate": "May 23, 2023 08:18:38 AM EDT",
+            "synopsisAttFolderId": 65792
+          },
+          {
+            "id": 328790,
+            "opportunityId": 348303,
+            "mimeType": "application/msword",
+            "fileName": "Application format.doc",
+            "fileDescription": "application format",
+            "fileLobSize": 43520,
+            "createdDate": "May 23, 2023 08:16:30 AM EDT",
+            "synopsisAttFolderId": 65792
+          },
+          {
+            "id": 328791,
+            "opportunityId": 348303,
+            "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "fileName": "budget-1-6.xlsx",
+            "fileDescription": "detailed budget",
+            "fileLobSize": 18237,
+            "createdDate": "May 23, 2023 08:17:00 AM EDT",
+            "synopsisAttFolderId": 65792
+          },
+          {
+            "id": 328793,
+            "opportunityId": 348303,
+            "mimeType": "application/pdf",
+            "fileName": "SF424_Mandatory_3_0-V3.0.pdf",
+            "fileDescription": "sf424",
+            "fileLobSize": 104016,
+            "createdDate": "May 23, 2023 08:18:01 AM EDT",
+            "synopsisAttFolderId": 65792
+          },
+          {
+            "id": 328794,
+            "opportunityId": 348303,
+            "mimeType": "application/pdf",
+            "fileName": "SF424A-V1.0 (1).pdf",
+            "fileDescription": "sf424A",
+            "fileLobSize": 134775,
+            "createdDate": "May 23, 2023 08:18:17 AM EDT",
+            "synopsisAttFolderId": 65792
+          },
+          {
+            "id": 328792,
+            "opportunityId": 348303,
+            "mimeType": "application/pdf",
+            "fileName": "Mandatory_SF424B-V1.1 (1).pdf",
+            "fileDescription": "sf424B",
+            "fileLobSize": 49547,
+            "createdDate": "May 23, 2023 08:17:47 AM EDT",
+            "synopsisAttFolderId": 65792
+          }
+        ]
+      }
+    ],
+    "synopsisDocumentURLs": [],
+    "synAttChangeComments": [],
+    "cfdas": [
+      {
+        "id": 411324,
+        "opportunityId": 348303,
+        "cfdaNumber": "19.900",
+        "programTitle": "AEECA/ESF PD Programs"
+      }
+    ],
+    "opportunityHistoryDetails": [],
+    "opportunityPkgs": [],
+    "closedOpportunityPkgs": [],
+    "synopsisModifiedFields": [],
+    "forecastModifiedFields": [],
+    "errorMessages": [],
+    "synPostDateInPast": true,
+    "docType": "forecast",
+    "forecastHistCount": 0,
+    "synopsisHistCount": 0,
+    "assistCompatible": false,
+    "assistURL": "",
+    "relatedOpps": [],
+    "draftMode": "N",
+    "ost": "FORECASTED"
+  }
+}

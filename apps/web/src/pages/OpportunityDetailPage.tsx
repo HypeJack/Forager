@@ -101,20 +101,22 @@ export function OpportunityDetailPage() {
           </div>
 
           {/* Why This Match */}
-          {match && (
+          {opp.relevance_score != null && (
             <div className="bg-surface-card border border-brand-primary/20 rounded-xl overflow-hidden mb-6 shadow-sm">
               <div className="bg-brand-primary/5 px-6 py-4 border-b border-brand-primary/10 flex justify-between items-center">
                 <h2 className="font-serif text-xl font-bold text-brand-primary-dark">Why this match?</h2>
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-semibold text-brand-primary-dark uppercase tracking-wider">Scout Score</span>
                   <div className="w-10 h-10 rounded-full bg-brand-primary text-white flex items-center justify-center font-bold shadow-sm">
-                    {match.score}
+                    {opp.relevance_score}
                   </div>
                 </div>
               </div>
               
               <div className="p-6">
-                <p className="text-neutral-800 leading-relaxed mb-6">{match.rationale}</p>
+                {opp.relevance_rationale && (
+                  <p className="text-neutral-800 leading-relaxed mb-6">{opp.relevance_rationale}</p>
+                )}
                 
                 {(match as any).eligibility_rationale && (
                   <div className="mb-6 p-5 bg-neutral-50 rounded-xl border border-neutral-200">

@@ -25,6 +25,10 @@ export interface GrantOpportunity {
   status: GrantStatus;
   tags: string[];
   metadata: Record<string, unknown>;
+  relevance_score?: number | null;
+  relevance_rationale?: string | null;
+  scored_at?: string | null;
+  scoring_model?: string | null;
   created_at: string;
   updated_at: string;
 }
