@@ -75,6 +75,74 @@ export function LandingPage() {
             </p>
           </div>
         </div>
+
+        {/* Agent Showcase */}
+        <div className="mt-24 sm:mt-32 w-full pt-16 sm:pt-24 border-t border-neutral-200">
+          <div className="text-center space-y-6 mb-12 sm:mb-16">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-neutral-950">
+              Meet your grant team
+            </h2>
+            <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+              Four specialist AI agents, engineered to work the way a great development office does.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 text-left">
+            <div className="p-6 sm:p-8 rounded-2xl bg-surface-card border border-neutral-200 shadow-sm space-y-4">
+              <div className="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center text-neutral-900">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-neutral-900">Scout — the finder.</h3>
+              <p className="text-neutral-600 leading-relaxed">
+                Sweeps funding sources against your mission, budget, and eligibility. Scores every opportunity 0–100 and shows its reasoning — nothing slips past, nothing is hidden.
+              </p>
+            </div>
+
+            <div className="p-6 sm:p-8 rounded-2xl bg-surface-card border border-neutral-200 shadow-sm space-y-4">
+              <div className="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center text-neutral-900">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-neutral-900">Librarian — the memory.</h3>
+              <p className="text-neutral-600 leading-relaxed">
+                Reads and indexes your organization's documents, so every answer and every draft is grounded in your own history.
+              </p>
+            </div>
+
+            <div className="p-6 sm:p-8 rounded-2xl bg-surface-card border border-neutral-200 shadow-sm space-y-4">
+              <div className="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center text-neutral-900">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-neutral-900">Architect — the writer.</h3>
+              <p className="text-neutral-600 leading-relaxed">
+                Drafts grounded, cited proposal sections from your own materials — ready for your team to refine, never generic boilerplate.
+              </p>
+            </div>
+
+            <div className="p-6 sm:p-8 rounded-2xl bg-surface-card border border-neutral-200 shadow-sm space-y-4">
+              <div className="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center text-neutral-900">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-neutral-900">Liaison — the relationship-keeper.</h3>
+              <p className="text-neutral-600 leading-relaxed">
+                Tracks funders, deadlines, and follow-ups so no relationship goes cold.
+              </p>
+            </div>
+          </div>
+          
+          <div className="mt-12 sm:mt-16 text-center">
+            <p className="text-base italic text-neutral-500">
+              Your team stays in control — Forager drafts, scores, and recommends. It never submits on your behalf.
+            </p>
+          </div>
+        </div>
       </main>
 
       {/* Footer */}
