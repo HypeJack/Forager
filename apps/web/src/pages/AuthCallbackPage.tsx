@@ -12,12 +12,12 @@ export function AuthCallbackPage() {
         console.error("Auth callback error:", error.message);
         setError(error.message);
       } else if (data.session) {
-        navigate({ to: "/" });
+        navigate({ to: "/opportunities" });
       } else {
         // Sometimes the session takes a moment to establish or PKCE exchanges via hash
         supabase.auth.onAuthStateChange((event, session) => {
           if (event === "SIGNED_IN" && session) {
-            navigate({ to: "/" });
+            navigate({ to: "/opportunities" });
           }
         });
       }

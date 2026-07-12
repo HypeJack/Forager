@@ -15,6 +15,7 @@ import { OpportunityDetailPage } from "@/pages/OpportunityDetailPage";
 import { DraftEditorPage } from "@/pages/DraftEditorPage";
 import { PipelinePage } from "@/pages/PipelinePage";
 import { AgentActivityPage } from "@/pages/AgentActivityPage";
+import { LandingPage } from "@/pages/LandingPage";
 import { AppShell } from "@/components/AppShell";
 import { supabase } from "@/lib/supabase";
 
@@ -48,6 +49,18 @@ const rootRoute = createRootRoute({
 
 // ── Public Routes ──────────────────────────────────────────────
 
+const landingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  beforeLoad: async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      throw redirect({ to: "/opportunities" });
+    }
+  },
+  component: LandingPage,
+});
+
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/login",
@@ -77,9 +90,9 @@ const appRoute = createRoute({
 
 // ── Flattened Routes (No Slug) ─────────────────────────────────
 
-const indexRoute = createRoute({
+const profileRoute = createRoute({
   getParentRoute: () => appRoute,
-  path: "/",
+  path: "/profile",
   component: OrgProfilePage,
 });
 
@@ -122,11 +135,12 @@ const agentsRoute = createRoute({
 // ── Router Instance ────────────────────────────────────────────
 
 const routeTree = rootRoute.addChildren([
+  landingRoute,
   loginRoute,
   callbackRoute,
   waitlistRoute,
   appRoute.addChildren([
-    indexRoute,
+    profileRoute,
     vaultRoute,
     opportunitiesRoute,
     opportunityDetailRoute,

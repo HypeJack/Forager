@@ -31,7 +31,7 @@ export function AppShell() {
         {/* Nav */}
         <nav className="flex-1 px-3 py-4 space-y-1">
           <Link
-            to="/"
+            to="/profile"
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-white/5 hover:text-white [&.active]:bg-white/8 [&.active]:text-white"
             activeProps={{ className: "active bg-white/8 text-white" }}
             id="nav-profile"
